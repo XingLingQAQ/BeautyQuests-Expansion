@@ -1,0 +1,9 @@
+name: BeautyQuests-Expansion
+author: SkytAsul
+version: ${project.version}
+description: 'Expansion for the BeautyQuests plugin.'
+api-version: 1.13
+main: fr.skytasul.quests.expansion.BeautyQuestsExpansion
+
+depend:
+- BeautyQuests
