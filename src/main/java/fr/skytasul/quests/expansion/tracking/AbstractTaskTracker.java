@@ -8,9 +8,6 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -47,6 +44,10 @@ public abstract class AbstractTaskTracker extends Tracker {
 		shown = null;
 	}
 	
+	public boolean isRunning() {
+		return shown != null;
+	}
+	
 	@Override
 	public void show(Player player) {
 		shown.add(player);
@@ -61,6 +62,7 @@ public abstract class AbstractTaskTracker extends Tracker {
 		if (locatable instanceof Locatable.PreciseLocatable) {
 			Locatable.PreciseLocatable precise = (PreciseLocatable) locatable;
 			Located located = precise.getLocated();
+			if (!isRunning()) return;
 			if (located != null) display(located);
 		}
 		
@@ -69,32 +71,16 @@ public abstract class AbstractTaskTracker extends Tracker {
 			Set<Locatable.Located> located = new HashSet<>();
 			for (Player player : shown) {
 				Collection<Located> playerLocated = multiple.getNearbyLocated(constructFetcher(player));
+				if (!isRunning()) return;
 				if (playerLocated == null) break;
 				located.addAll(playerLocated);
 			}
+			if (!isRunning()) return;
 			located.forEach(this::display);
 		}
 	}
 	
-	private void display(Locatable.Located located) {
-		if (located instanceof Locatable.Located.LocatedBlock) {
-			displayBlock(((Locatable.Located.LocatedBlock) located).getBlock());
-		}else if (located instanceof Locatable.Located.LocatedEntity) {
-			displayEntity(((Locatable.Located.LocatedEntity) located).getEntity());
-		}else {
-			displayLocation(located.getLocation());
-		}
-	}
-
-	protected void displayBlock(Block block) {
-		displayLocation(block.getLocation());
-	}
-
-	protected void displayEntity(Entity entity) {
-		displayLocation(entity.getLocation());
-	}
-
-	protected abstract void displayLocation(Location location);
+	protected abstract void display(Locatable.Located located);
 	
 	protected abstract NearbyFetcher constructFetcher(Player player);
 	

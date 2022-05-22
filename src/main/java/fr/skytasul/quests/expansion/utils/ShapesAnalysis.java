@@ -4,12 +4,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.util.BoundingBox;
+import org.bukkit.util.Vector;
+import org.bukkit.util.VoxelShape;
 
 public class ShapesAnalysis {
+	
+	private static final List<AnalyzedEdges> ANALYZED_EDGES = new ArrayList<>();
 	
 	public static double getBlockHeight(Block block) {
 		double minY = 0;
@@ -43,16 +50,27 @@ public class ShapesAnalysis {
 	}
 	
 	public static List<Location> getEdgePoints(Block block, double resolution) {
-		List<Location> list = new ArrayList<>((int) (1D / resolution * 12D));
+		BlockData blockData  = block.getBlockData();
 		
-		Collection<BoundingBox> boxes = block.getCollisionShape().getBoundingBoxes();
+		Optional<AnalyzedEdges> precomputed = ANALYZED_EDGES.stream().filter(edges -> edges.match(blockData, resolution)).findAny();
+		if (precomputed.isPresent()) return precomputed.get().apply(block.getLocation());
+	
+		AnalyzedEdges edges = new AnalyzedEdges(blockData, resolution, getEdgePoints(block.getCollisionShape(), resolution));
+		ANALYZED_EDGES.add(edges);
+		return edges.apply(block.getLocation());
+	}
+	
+	public static List<Vector> getEdgePoints(VoxelShape shape, double resolution) {
+		List<Vector> list = new ArrayList<>((int) (1D / resolution * 12D));
+		
+		Collection<BoundingBox> boxes = shape.getBoundingBoxes();
 		for (BoundingBox box : boxes) {
 			CoordinateConsumer consumer = (x, y, z) -> {
 				if (boxes
 						.stream()
 						.filter(otherBox -> otherBox != box)
 						.noneMatch(otherBox -> liesInside(otherBox, x, y, z)))
-					list.add(block.getLocation().add(x, y, z));
+					list.add(new Vector(x, y, z));
 			};
 			// lol probably not optimized at all
 			iterateOverX(box, box.getMinY(), box.getMinZ(), resolution, consumer);
@@ -130,5 +148,26 @@ public class ShapesAnalysis {
 	        }
 	    }
 	}*/
+	
+	private static class AnalyzedEdges {
+		private final BlockData blockData;
+		private final double resolution;
+		private final List<Vector> points;
+		
+		private AnalyzedEdges(BlockData blockData, double resolution, List<Vector> points) {
+			this.blockData = blockData;
+			this.resolution = resolution;
+			this.points = points;
+		}
+		
+		public boolean match(BlockData blockData, double resolution) {
+			return this.blockData.equals(blockData) && this.resolution == resolution;
+		}
+		
+		public List<Location> apply(Location location) {
+			return points.stream().map(point -> location.clone().add(point)).collect(Collectors.toList());
+		}
+		
+	}
 	
 }

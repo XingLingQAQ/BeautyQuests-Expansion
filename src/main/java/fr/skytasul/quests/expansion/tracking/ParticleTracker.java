@@ -4,15 +4,16 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import fr.skytasul.quests.api.objects.QuestObjectClickEvent;
 import fr.skytasul.quests.api.options.QuestOption;
+import fr.skytasul.quests.api.stages.types.Locatable;
+import fr.skytasul.quests.api.stages.types.Locatable.Located;
 import fr.skytasul.quests.api.stages.types.Locatable.MultipleLocatable.NearbyFetcher;
 import fr.skytasul.quests.expansion.api.tracking.Tracker;
 import fr.skytasul.quests.expansion.utils.ShapesAnalysis;
-import fr.skytasul.quests.gui.misc.ParticleEffectGUI;
+import fr.skytasul.quests.gui.particles.ParticleEffectGUI;
 import fr.skytasul.quests.utils.Lang;
 import fr.skytasul.quests.utils.ParticleEffect;
 import fr.skytasul.quests.utils.ParticleEffect.ParticleShape;
@@ -42,6 +43,7 @@ public class ParticleTracker extends AbstractTaskTracker {
 	
 	@Override
 	public void itemClick(QuestObjectClickEvent event) {
+		if (event.isInCreation()) return;
 		new ParticleEffectGUI(newEffect -> {
 			particles = newEffect;
 			event.updateItemLore(getLore());
@@ -55,22 +57,28 @@ public class ParticleTracker extends AbstractTaskTracker {
 	}
 	
 	@Override
-	protected void displayLocation(Location location) {
-		particles.send(location, 0, shown);
-	}
-	
-	@Override
-	protected void displayEntity(Entity entity) {
-		particles.send(entity, shown);
-	}
-	
-	@Override
-	protected void displayBlock(Block block) {
-		if (NMS.getMCVersion() >= 17) {
-			particles.send(ShapesAnalysis.getBlockBottom(block), ShapesAnalysis.getBlockHeight(block), shown);
-		}else {
-			particles.send(block.getLocation().add(0.5, 0, 0.5), 1, shown);
+	protected void display(Located located) {
+		if (located instanceof Locatable.Located.LocatedEntity) {
+			particles.send(((Locatable.Located.LocatedEntity) located).getEntity(), shown);
+			return;
 		}
+		
+		Location bottom;
+		double height;
+		if (located instanceof Locatable.Located.LocatedBlock) {
+			Block block = ((Locatable.Located.LocatedBlock) located).getBlock();
+			if (NMS.getMCVersion() >= 17) {
+				bottom = ShapesAnalysis.getBlockBottom(block);
+				height = ShapesAnalysis.getBlockHeight(block);
+			}else {
+				bottom = block.getLocation().add(0.5, 0, 0.5);
+				height = 1;
+			}
+		}else {
+			bottom = located.getLocation();
+			height = 0;
+		}
+		particles.send(bottom, height, shown);
 	}
 	
 	@Override

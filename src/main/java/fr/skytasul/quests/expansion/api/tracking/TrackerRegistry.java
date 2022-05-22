@@ -6,6 +6,7 @@ import fr.skytasul.quests.api.options.QuestOption;
 import fr.skytasul.quests.api.serializable.SerializableCreator;
 import fr.skytasul.quests.api.stages.StageType;
 import fr.skytasul.quests.api.stages.types.Locatable;
+import fr.skytasul.quests.expansion.tracking.BlockOutlineTracker;
 import fr.skytasul.quests.expansion.tracking.ParticleTracker;
 import fr.skytasul.quests.expansion.tracking.TrackingOption;
 import fr.skytasul.quests.expansion.utils.LangExpansion;
@@ -25,6 +26,8 @@ public class TrackerRegistry extends QuestObjectsRegistry<Tracker, TrackerCreato
 	private void registerTrackers() {
 		if (NMS.getMCVersion() > 8)
 			register(new TrackerCreator("particles", ParticleTracker.class, ItemUtils.item(XMaterial.SPLASH_POTION, LangExpansion.Tracking_Particles_Name.toString(), QuestOption.formatDescription(LangExpansion.Tracking_Particles_Description.toString())), ParticleTracker::new));
+		if (NMS.getMCVersion() >= 17)
+			register(new TrackerCreator("block-outline", BlockOutlineTracker.class, ItemUtils.item(XMaterial.ACACIA_STAIRS, LangExpansion.Tracking_Outline_Name.toString(), QuestOption.formatDescription(LangExpansion.Tracking_Outline_Description.toString())), BlockOutlineTracker::new));
 	}
 
 	private void registerOption() {

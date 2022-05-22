@@ -5,3 +5,6 @@ tracking:
   particles:
     name: §dParticles
     description: Displays a specified particle effect on the targets of this stage.
+  outline:
+    name: §dBlock outlines
+    description: Displays particles on the edges of target blocks of this stage.
