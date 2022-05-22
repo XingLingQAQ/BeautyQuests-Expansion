@@ -1,0 +1,7 @@
+tracking:
+  trackers: '{0} trackers'
+  gui:
+    name: §aTarget trackers
+  particles:
+    name: §dParticles
+    description: Displays a specified particle effect on the targets of this stage.
