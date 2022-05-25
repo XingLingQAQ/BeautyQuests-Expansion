@@ -19,7 +19,7 @@ import fr.skytasul.quests.gui.particles.ParticleListGUI;
 import fr.skytasul.quests.utils.Lang;
 import fr.skytasul.quests.utils.ParticleEffect;
 
-public class BlockOutlineTracker extends AbstractTaskTracker {
+public class BlockOutlineTracker extends AbstractTaskFetcherTracker {
 	
 	private static final ParticleEffect DEFAULT_EFFECT = new ParticleEffect(Particle.FLAME, null, null);
 	
@@ -34,6 +34,7 @@ public class BlockOutlineTracker extends AbstractTaskTracker {
 	}
 	
 	public BlockOutlineTracker(ParticleEffect particles) {
+		super(20);
 		this.particles = particles;
 	}
 	

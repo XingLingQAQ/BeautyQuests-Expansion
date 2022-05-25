@@ -8,3 +8,6 @@ tracking:
   outline:
     name: §dBlock outlines
     description: Displays particles on the edges of target blocks of this stage.
+  beacon:
+    name: §dBeacon beam
+    description: Display a beacon beam in the direction of the stage target.

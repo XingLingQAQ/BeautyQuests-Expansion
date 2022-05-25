@@ -19,7 +19,7 @@ import fr.skytasul.quests.utils.ParticleEffect;
 import fr.skytasul.quests.utils.ParticleEffect.ParticleShape;
 import fr.skytasul.quests.utils.nms.NMS;
 
-public class ParticleTracker extends AbstractTaskTracker {
+public class ParticleTracker extends AbstractTaskFetcherTracker {
 	
 	private static final ParticleEffect DEFAULT_EFFECT = new ParticleEffect(Particle.FLAME, ParticleShape.POINT, null);
 	
@@ -33,6 +33,7 @@ public class ParticleTracker extends AbstractTaskTracker {
 	}
 	
 	public ParticleTracker(ParticleEffect particles) {
+		super(20);
 		this.particles = particles;
 	}
 	

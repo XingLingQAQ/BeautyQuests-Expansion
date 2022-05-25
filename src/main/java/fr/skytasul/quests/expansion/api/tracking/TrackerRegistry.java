@@ -6,6 +6,7 @@ import fr.skytasul.quests.api.options.QuestOption;
 import fr.skytasul.quests.api.serializable.SerializableCreator;
 import fr.skytasul.quests.api.stages.StageType;
 import fr.skytasul.quests.api.stages.types.Locatable;
+import fr.skytasul.quests.expansion.tracking.BeaconTracker;
 import fr.skytasul.quests.expansion.tracking.BlockOutlineTracker;
 import fr.skytasul.quests.expansion.tracking.ParticleTracker;
 import fr.skytasul.quests.expansion.tracking.TrackingOption;
@@ -28,6 +29,8 @@ public class TrackerRegistry extends QuestObjectsRegistry<Tracker, TrackerCreato
 			register(new TrackerCreator("particles", ParticleTracker.class, ItemUtils.item(XMaterial.SPLASH_POTION, LangExpansion.Tracking_Particles_Name.toString(), QuestOption.formatDescription(LangExpansion.Tracking_Particles_Description.toString())), ParticleTracker::new));
 		if (NMS.getMCVersion() >= 17)
 			register(new TrackerCreator("block-outline", BlockOutlineTracker.class, ItemUtils.item(XMaterial.ACACIA_STAIRS, LangExpansion.Tracking_Outline_Name.toString(), QuestOption.formatDescription(LangExpansion.Tracking_Outline_Description.toString())), BlockOutlineTracker::new));
+		if (NMS.getMCVersion() >= 13)
+			register(new TrackerCreator("beacon-beam", BeaconTracker.class, ItemUtils.item(XMaterial.BEACON, LangExpansion.Tracking_Beacon_Name.toString(), QuestOption.formatDescription(LangExpansion.Tracking_Beacon_Description.toString())), BeaconTracker::new, type -> Locatable.PreciseLocatable.class.isAssignableFrom(type.getStageClass())));
 	}
 
 	private void registerOption() {
