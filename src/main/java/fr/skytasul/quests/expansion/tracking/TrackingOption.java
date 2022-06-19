@@ -90,27 +90,29 @@ public class TrackingOption extends StageOption<AbstractStage> {
 	
 	@Override
 	public void stageStart(PlayerAccount acc, AbstractStage stage) {
-		if (trackers != null && acc.isCurrent()) {
-			Player player = acc.getPlayer();
-			trackers.forEach(x -> x.show(player));
-		}
+		if (acc.isCurrent()) showTrackers(acc.getPlayer(), (Locatable) stage);
 	}
 	
 	@Override
 	public void stageJoin(PlayerAccount acc, Player p, AbstractStage stage) {
-		if (trackers != null) trackers.forEach(x -> x.show(p));
+		showTrackers(p, (Locatable) stage);
 	}
 	
 	@Override
 	public void stageEnd(PlayerAccount acc, AbstractStage stage) {
-		if (trackers != null && acc.isCurrent()) {
-			Player player = acc.getPlayer();
-			trackers.forEach(x -> x.hide(player));
-		}
+		if (acc.isCurrent()) hideTrackers(acc.getPlayer());
 	}
 	
 	@Override
 	public void stageLeave(PlayerAccount acc, Player p, AbstractStage stage) {
+		hideTrackers(p);
+	}
+	
+	private void showTrackers(Player player, Locatable stage) {
+		if (trackers != null && stage.isShown(player)) trackers.forEach(x -> x.show(player));
+	}
+	
+	private void hideTrackers(Player p) {
 		if (trackers != null) trackers.forEach(x -> x.hide(p));
 	}
 	

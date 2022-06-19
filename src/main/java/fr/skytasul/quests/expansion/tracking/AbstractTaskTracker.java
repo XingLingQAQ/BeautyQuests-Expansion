@@ -12,6 +12,8 @@ public abstract class AbstractTaskTracker extends Tracker implements Runnable {
 	private BukkitTask task;
 	private long period;
 	
+	protected Locatable locatable;
+	
 	protected AbstractTaskTracker(long period) {
 		this.period = period;
 	}
@@ -22,6 +24,7 @@ public abstract class AbstractTaskTracker extends Tracker implements Runnable {
 	
 	@Override
 	public void start(Locatable locatable) {
+		this.locatable = locatable;
 		if (locatable.canBeFetchedAsynchronously()) {
 			task = Bukkit.getScheduler().runTaskTimerAsynchronously(BeautyQuestsExpansion.getInstance(), this, getDelay(), period);
 		}else {

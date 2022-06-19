@@ -48,7 +48,12 @@ public class BlockOutlineTracker extends AbstractTaskFetcherTracker {
 	
 	@Override
 	protected NearbyFetcher constructFetcher(Player player) {
-		return NearbyFetcher.create(player.getLocation(), maxDistance, maxAmount, Locatable.Located.LocatedBlock.class);
+		return NearbyFetcher.create(player.getLocation(), maxDistance, Locatable.LocatedType.BLOCK);
+	}
+	
+	@Override
+	protected int getAmount(Player player) {
+		return maxAmount;
 	}
 	
 	@Override

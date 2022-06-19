@@ -38,11 +38,11 @@ public class BeaconTracker extends AbstractTaskTracker {
 	private boolean showingState = false;
 	
 	public BeaconTracker() {
-		this(35, DyeColor.LIME);
+		this(40, DyeColor.LIME);
 	}
 	
 	public BeaconTracker(int minDistance, DyeColor color) {
-		super(40);
+		super(45);
 		this.minDistance = minDistance;
 		setColor(color);
 	}
@@ -84,7 +84,7 @@ public class BeaconTracker extends AbstractTaskTracker {
 	@Override
 	public void stop() {
 		super.stop();
-		if (shown != null) shown.values().forEach(PlayerBeacon::remove);
+		if (shown != null && !shown.isEmpty()) shown.values().forEach(PlayerBeacon::remove);
 	}
 	
 	@Override
@@ -113,7 +113,8 @@ public class BeaconTracker extends AbstractTaskTracker {
 	
 	@Override
 	public void hide(Player player) {
-		shown.remove(player).remove();
+		PlayerBeacon beacon = shown.remove(player);
+		if (beacon != null) beacon.remove();
 	}
 	
 	@Override

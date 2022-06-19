@@ -12,6 +12,8 @@ public enum LangExpansion implements Locale {
 	Tracking_Outline_Description("tracking.outline.description"),
 	Tracking_Beacon_Name("tracking.beacon.name"),
 	Tracking_Beacon_Description("tracking.beacon.description"),
+	Tracking_Glowing_Name("tracking.glowing.name"),
+	Tracking_Glowing_Description("tracking.glowing.description"),
 	
 	;
 	
