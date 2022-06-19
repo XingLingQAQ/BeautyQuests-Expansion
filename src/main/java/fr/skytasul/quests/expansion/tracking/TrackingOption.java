@@ -70,7 +70,7 @@ public class TrackingOption extends StageOption<AbstractStage> {
 				this.trackers = trackers.isEmpty() ? null : trackers;
 				creation.getLine().editItem(itemSlot, ItemUtils.lore(creation.getLine().getItem(itemSlot), getLore()));
 				creation.reopenGUI(p, true);
-			}, trackers == null ? new ArrayList<>() : trackers).create(p);
+			}, trackers == null ? new ArrayList<>() : trackers, creator -> creator.matches(creation.getType())).create(p);
 		});
 	}
 	

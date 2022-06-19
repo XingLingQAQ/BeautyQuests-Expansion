@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Spliterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -27,6 +28,7 @@ public abstract class AbstractTaskFetcherTracker extends AbstractTaskTracker {
 	
 	@Override
 	public void start(Locatable locatable) {
+		super.start(locatable);
 		if (locatable.canBeFetchedAsynchronously()) {
 			shown = new CopyOnWriteArrayList<>();
 		}else {
@@ -57,8 +59,10 @@ public abstract class AbstractTaskFetcherTracker extends AbstractTaskTracker {
 			Locatable.MultipleLocatable multiple = (MultipleLocatable) locatable;
 			Set<Locatable.Located> located = new HashSet<>();
 			for (Player player : shown) {
+				Spliterator<Located> nearbyLocated = multiple.getNearbyLocated(constructFetcher(player));
+				if (nearbyLocated == null) continue;
 				Collection<Located> playerLocated =
-						StreamSupport.stream(multiple.getNearbyLocated(constructFetcher(player)), false)
+						StreamSupport.stream(nearbyLocated, false)
 							.limit(getAmount(player))
 							.collect(Collectors.toList());
 				
