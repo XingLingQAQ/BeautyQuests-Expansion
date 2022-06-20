@@ -10,18 +10,24 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
 import fr.skytasul.quests.api.objects.QuestObjectClickEvent;
+import fr.skytasul.quests.api.options.QuestOption;
 import fr.skytasul.quests.api.stages.types.Locatable;
 import fr.skytasul.quests.api.stages.types.Locatable.Located;
 import fr.skytasul.quests.api.stages.types.Locatable.PreciseLocatable;
+import fr.skytasul.quests.editors.TextEditor;
+import fr.skytasul.quests.editors.checkers.EnumParser;
 import fr.skytasul.quests.expansion.api.tracking.Tracker;
+import fr.skytasul.quests.utils.Lang;
 
 public class BeaconTracker extends AbstractTaskTracker {
 	
+	private static final DyeColor DEFAULT_COLOR = DyeColor.LIME;
 	private static final int TARGET_TIME_MODULO = 78;
 	
 	private static final BlockData DATA_BEACON = Bukkit.createBlockData(Material.BEACON);
@@ -38,7 +44,7 @@ public class BeaconTracker extends AbstractTaskTracker {
 	private boolean showingState = false;
 	
 	public BeaconTracker() {
-		this(40, DyeColor.LIME);
+		this(40, DEFAULT_COLOR);
 	}
 	
 	public BeaconTracker(int minDistance, DyeColor color) {
@@ -118,7 +124,30 @@ public class BeaconTracker extends AbstractTaskTracker {
 	}
 	
 	@Override
-	public void itemClick(QuestObjectClickEvent event) {}
+	public String[] getLore() {
+		return new String[] { QuestOption.formatDescription(color.name().toLowerCase().replace('_', ' ')), "", Lang.RemoveMid.toString() };
+	}
+	
+	@Override
+	public void itemClick(QuestObjectClickEvent event) {
+		if (event.isInCreation()) return;
+		Lang.COLOR_NAMED_EDITOR.send(event.getPlayer());
+		new TextEditor<>(event.getPlayer(), event::reopenGUI, newColor -> {
+			this.color = newColor;
+			event.updateItemLore(getLore());
+			event.reopenGUI();
+		}, new EnumParser<>(DyeColor.class)).enter();
+	}
+	
+	@Override
+	public void save(ConfigurationSection section) {
+		if (color != DEFAULT_COLOR) section.set("color", color.name());
+	}
+	
+	@Override
+	public void load(ConfigurationSection section) {
+		if (section.contains("color")) color = DyeColor.valueOf(section.getString("color"));
+	}
 	
 	class PlayerBeacon {
 		

@@ -10,11 +10,13 @@ import java.util.Spliterator;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import fr.skytasul.glowingentities.GlowingEntities;
 import fr.skytasul.quests.api.objects.QuestObjectClickEvent;
+import fr.skytasul.quests.api.options.QuestOption;
 import fr.skytasul.quests.api.stages.types.Locatable;
 import fr.skytasul.quests.api.stages.types.Locatable.Located;
 import fr.skytasul.quests.api.stages.types.Locatable.Located.LocatedEntity;
@@ -22,25 +24,34 @@ import fr.skytasul.quests.api.stages.types.Locatable.LocatedType;
 import fr.skytasul.quests.api.stages.types.Locatable.MultipleLocatable;
 import fr.skytasul.quests.api.stages.types.Locatable.MultipleLocatable.NearbyFetcher;
 import fr.skytasul.quests.api.stages.types.Locatable.PreciseLocatable;
+import fr.skytasul.quests.editors.TextEditor;
+import fr.skytasul.quests.editors.checkers.EnumParser;
 import fr.skytasul.quests.expansion.BeautyQuestsExpansion;
 import fr.skytasul.quests.expansion.api.tracking.Tracker;
+import fr.skytasul.quests.utils.Lang;
 
 public class GlowingTracker extends AbstractTaskTracker {
 	
+	private static final ChatColor DEFAULT_COLOR = ChatColor.GREEN;
 	private static final long UPDATE_RATE = 50L;
 
 	private static GlowingEntities GLOWING_API;
 	
-	private ChatColor color = ChatColor.GREEN;
+	private ChatColor color;
 	private double maxDistance = 40;
 	private int maxAmount = 10;
 	
 	private Map<Player, Set<Glowing>> shown;
 	
 	public GlowingTracker() {
+		this(DEFAULT_COLOR);
+	}
+
+	public GlowingTracker(ChatColor color) {
 		super(UPDATE_RATE);
-		
 		if (GLOWING_API == null) GLOWING_API = new GlowingEntities(BeautyQuestsExpansion.getInstance());
+		
+		this.color = color;
 	}
 	
 	@Override
@@ -110,7 +121,7 @@ public class GlowingTracker extends AbstractTaskTracker {
 	
 	@Override
 	public Tracker clone() {
-		return new GlowingTracker();
+		return new GlowingTracker(color);
 	}
 	
 	@Override
@@ -125,8 +136,29 @@ public class GlowingTracker extends AbstractTaskTracker {
 	}
 	
 	@Override
+	public String[] getLore() {
+		return new String[] { QuestOption.formatDescription(color.name().toLowerCase().replace('_', ' ')), "", Lang.RemoveMid.toString() };
+	}
+	
+	@Override
 	public void itemClick(QuestObjectClickEvent event) {
-		// TODO customize color
+		if (event.isInCreation()) return;
+		Lang.COLOR_NAMED_EDITOR.send(event.getPlayer());
+		new TextEditor<>(event.getPlayer(), event::reopenGUI, newColor -> {
+			this.color = newColor;
+			event.updateItemLore(getLore());
+			event.reopenGUI();
+		}, new EnumParser<>(ChatColor.class, ChatColor::isColor)).enter();
+	}
+	
+	@Override
+	public void save(ConfigurationSection section) {
+		if (color != DEFAULT_COLOR) section.set("color", color.name());
+	}
+	
+	@Override
+	public void load(ConfigurationSection section) {
+		if (section.contains("color")) color = ChatColor.valueOf(section.getString("color"));
 	}
 	
 	class Glowing {
