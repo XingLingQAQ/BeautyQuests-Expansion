@@ -1,4 +1,4 @@
-package fr.skytasul.quests.expansion.tracking;
+package fr.skytasul.quests.expansion.options;
 
 import java.util.ArrayList;
 import java.util.List;

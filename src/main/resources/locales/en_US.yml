@@ -1,6 +1,14 @@
 expansion:
   label: '§d§l§oExpansion feature!'
+timelimit:
+  name: Time limit
+  description: >-
+    Time limit for the quest. Players will only be able to complete
+    the quest within the setup duration after they start the quest.
+  editor: Write the maximum duration a player can take to complete this quest.
 tracking:
+  name: Objective trackers
+  description: Various helpful configurable objects which makes objective finding easier.
   trackers: '{0} trackers'
   gui:
     name: §aTarget trackers

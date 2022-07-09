@@ -1,11 +1,19 @@
 package fr.skytasul.quests.expansion.utils;
 
 import fr.skytasul.quests.api.Locale;
+import fr.skytasul.quests.utils.Lang;
 
 public enum LangExpansion implements Locale {
 	
 	Expansion_Label("expansion.label"),
+	
+	TimeLimit_Name("timelimit.name"),
+	TimeLimit_Description("timelimit.description"),
+	TimeLimit_EDITOR("timelimit.editor", Lang.EditorPrefix),
+	
 	Tracking_Trackers("tracking.trackers"), // 0: tracker amount
+	Tracking_Name("tracking.name"),
+	Tracking_Description("tracking.description"),
 	Tracking_Gui_Name("tracking.gui.name"),
 	Tracking_Particles_Name("tracking.particles.name"),
 	Tracking_Particles_Description("tracking.particles.description"),
@@ -21,9 +29,15 @@ public enum LangExpansion implements Locale {
 	private final String path;
 	
 	private String value = "§cnot loaded";
+	private Locale prefix;
 	
 	private LangExpansion(String path) {
+		this(path, null);
+	}
+	
+	private LangExpansion(String path, Locale prefix) {
 		this.path = path;
+		this.prefix = prefix;
 	}
 	
 	@Override
@@ -33,7 +47,7 @@ public enum LangExpansion implements Locale {
 	
 	@Override
 	public String getValue() {
-		return value;
+		return prefix == null ? value : (prefix.toString() + value);
 	}
 	
 	@Override
