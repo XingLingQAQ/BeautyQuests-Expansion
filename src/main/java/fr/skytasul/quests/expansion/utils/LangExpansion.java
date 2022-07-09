@@ -4,6 +4,7 @@ import fr.skytasul.quests.api.Locale;
 
 public enum LangExpansion implements Locale {
 	
+	Expansion_Label("expansion.label"),
 	Tracking_Trackers("tracking.trackers"), // 0: tracker amount
 	Tracking_Gui_Name("tracking.gui.name"),
 	Tracking_Particles_Name("tracking.particles.name"),

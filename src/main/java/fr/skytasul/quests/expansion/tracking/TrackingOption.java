@@ -75,7 +75,7 @@ public class TrackingOption extends StageOption<AbstractStage> {
 	}
 	
 	private String[] getLore() {
-		return new String[] { QuestOption.formatDescription(LangExpansion.Tracking_Trackers.format(trackers == null ? 0 : trackers.size())) };
+		return new String[] { QuestOption.formatDescription(LangExpansion.Tracking_Trackers.format(trackers == null ? 0 : trackers.size())), "", LangExpansion.Expansion_Label.toString() };
 	}
 	
 	@Override
