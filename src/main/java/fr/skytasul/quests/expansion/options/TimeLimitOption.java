@@ -1,6 +1,8 @@
 package fr.skytasul.quests.expansion.options;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
@@ -16,12 +18,15 @@ import fr.skytasul.quests.api.events.QuestFinishEvent;
 import fr.skytasul.quests.api.events.QuestLaunchEvent;
 import fr.skytasul.quests.api.options.OptionSet;
 import fr.skytasul.quests.api.options.QuestOption;
+import fr.skytasul.quests.api.options.description.QuestDescriptionContext;
+import fr.skytasul.quests.api.options.description.QuestDescriptionProvider;
 import fr.skytasul.quests.editors.TextEditor;
 import fr.skytasul.quests.editors.checkers.DurationParser.MinecraftTimeUnit;
 import fr.skytasul.quests.expansion.BeautyQuestsExpansion;
 import fr.skytasul.quests.expansion.utils.LangExpansion;
 import fr.skytasul.quests.gui.ItemUtils;
 import fr.skytasul.quests.gui.creation.FinishGUI;
+import fr.skytasul.quests.gui.quests.PlayerListGUI.Category;
 import fr.skytasul.quests.players.PlayerAccount;
 import fr.skytasul.quests.players.PlayerQuestDatas;
 import fr.skytasul.quests.players.events.PlayerAccountJoinEvent;
@@ -30,7 +35,7 @@ import fr.skytasul.quests.structure.Quest;
 import fr.skytasul.quests.utils.Utils;
 import fr.skytasul.quests.utils.XMaterial;
 
-public class TimeLimitOption extends QuestOption<Integer> implements Listener {
+public class TimeLimitOption extends QuestOption<Integer> implements Listener, QuestDescriptionProvider {
 	
 	private Map<PlayerAccount, BukkitTask> tasks;
 	
@@ -129,6 +134,28 @@ public class TimeLimitOption extends QuestOption<Integer> implements Listener {
 	@EventHandler
 	public void onQuestFinish(QuestFinishEvent event) {
 		cancelTask(event.getPlayerAccount());
+	}
+	
+	@Override
+	public List<String> provideDescription(QuestDescriptionContext context) {
+		if (!context.getPlayerAccount().isCurrent()) return null;
+		if (context.getCategory() != Category.IN_PROGRESS) return null;
+		
+		PlayerQuestDatas datas = context.getPlayerAccount().getQuestDatasIfPresent(getAttachedQuest());
+		if (datas == null) {
+			BeautyQuestsExpansion.logger.warning("Cannot find player datas of " + context.getPlayerAccount().debugName() + " for quest " + getAttachedQuest().getID());
+			return null;
+		}
+		long startingTime = datas.getStartingTime();
+		if (startingTime == 0) return null; // outdated datas
+		
+		long timeToWait = startingTime + getValue() * 1000 - System.currentTimeMillis();
+		return Arrays.asList(LangExpansion.TimeLimit_Left.format(Utils.millisToHumanString(timeToWait)));
+	}
+	
+	@Override
+	public double getDescriptionPriority() {
+		return 50;
 	}
 	
 }

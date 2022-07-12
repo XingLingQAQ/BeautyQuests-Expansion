@@ -7,8 +7,12 @@ public enum LangExpansion implements Locale {
 	
 	Expansion_Label("expansion.label"),
 	
+	Features_Header("features.header"), // 0: amount enabled
+	Features_Unloaded("features.unloaded"),
+	
 	TimeLimit_Name("timelimit.name"),
 	TimeLimit_Description("timelimit.description"),
+	TimeLimit_Left("timelimit.left"), // 0: left duration
 	TimeLimit_EDITOR("timelimit.editor", Lang.EditorPrefix),
 	
 	Tracking_Trackers("tracking.trackers"), // 0: tracker amount

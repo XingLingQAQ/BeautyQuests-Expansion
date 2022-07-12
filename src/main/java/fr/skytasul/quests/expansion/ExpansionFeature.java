@@ -1,5 +1,7 @@
 package fr.skytasul.quests.expansion;
 
+import fr.skytasul.quests.expansion.utils.LangExpansion;
+
 public class ExpansionFeature {
 	
 	private final String name;
@@ -37,6 +39,13 @@ public class ExpansionFeature {
 	
 	public void unload() {
 		if (loaded && unload != null) unload.run();
+	}
+	
+	@Override
+	public String toString() {
+		String string = (loaded ? "§a" : "§c") + name + ":§f " + description;
+		if (!loaded) string += " §c(" + LangExpansion.Features_Unloaded.toString() + ")";
+		return string;
 	}
 	
 }

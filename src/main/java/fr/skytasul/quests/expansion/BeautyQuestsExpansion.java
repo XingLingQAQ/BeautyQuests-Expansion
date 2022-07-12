@@ -46,12 +46,18 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 			
 			addDefaultFeatures();
 			loadFeatures();
+			
+			registerCommands();
 		}catch (LoadingException ex) {
 			if (ex.getCause() != null) logger.severe("A fatal error occurred while loading plugin.", ex.getCause());
 			logger.severe(ex.getLoggerMessage());
 			logger.severe("This is a fatal error. Now disabling.");
 			setEnabled(false);
 		}
+	}
+	
+	private void registerCommands() {
+		BeautyQuests.getInstance().getCommand().registerCommandsClass(new ExpansionCommands());
 	}
 	
 	@Override
@@ -92,6 +98,10 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 	
 	private void unloadFeatures() {
 		features.forEach(ExpansionFeature::unload);
+	}
+	
+	public List<ExpansionFeature> getFeatures() {
+		return features;
 	}
 	
 	public TrackerRegistry getTrackersRegistry() {

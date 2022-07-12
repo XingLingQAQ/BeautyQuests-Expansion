@@ -1,10 +1,14 @@
 expansion:
   label: '§d§l§oExpansion feature!'
+features:
+  header: '§fExpansion features ({0}):'
+  unloaded: '(not loaded)'
 timelimit:
   name: Time limit
   description: >-
     Time limit for the quest. Players will only be able to complete
     the quest within the setup duration after they start the quest.
+  left: '§8> Time left: §7{0}'
   editor: Write the maximum duration a player can take to complete this quest.
 tracking:
   name: Objective trackers
