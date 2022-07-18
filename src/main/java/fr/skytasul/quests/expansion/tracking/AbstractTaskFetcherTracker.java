@@ -1,12 +1,9 @@
 package fr.skytasul.quests.expansion.tracking;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.Spliterator;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -18,32 +15,10 @@ import fr.skytasul.quests.api.stages.types.Locatable.MultipleLocatable;
 import fr.skytasul.quests.api.stages.types.Locatable.MultipleLocatable.NearbyFetcher;
 import fr.skytasul.quests.api.stages.types.Locatable.PreciseLocatable;
 
-public abstract class AbstractTaskFetcherTracker extends AbstractTaskTracker {
-	
-	protected List<Player> shown;
+public abstract class AbstractTaskFetcherTracker extends AbstractTaskShownTracker {
 	
 	protected AbstractTaskFetcherTracker(long period) {
 		super(period);
-	}
-	
-	@Override
-	public void start(Locatable locatable) {
-		super.start(locatable);
-		if (locatable.canBeFetchedAsynchronously()) {
-			shown = new CopyOnWriteArrayList<>();
-		}else {
-			shown = new ArrayList<>();
-		}
-	}
-	
-	@Override
-	public void show(Player player) {
-		shown.add(player);
-	}
-	
-	@Override
-	public void hide(Player player) {
-		shown.remove(player);
 	}
 	
 	@Override

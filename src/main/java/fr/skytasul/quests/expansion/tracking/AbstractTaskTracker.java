@@ -44,4 +44,8 @@ public abstract class AbstractTaskTracker extends Tracker implements Runnable {
 		return task != null;
 	}
 	
+	public <T extends Locatable> T getLocatable() {
+		return (T) locatable;
+	}
+	
 }

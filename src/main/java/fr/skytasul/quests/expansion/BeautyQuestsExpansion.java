@@ -78,7 +78,12 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 				LangExpansion.Tracking_Name.toString(),
 				LangExpansion.Tracking_Description.toString(),
 				() -> trackersRegistry = new TrackerRegistry(),
-				null));
+				null) {
+			@Override
+			public String getDescription() {
+				return LangExpansion.Tracking_Description.format(trackersRegistry == null ? "x" : trackersRegistry.getCreators().size());
+			}
+		});
 		features.add(new ExpansionFeature(
 				LangExpansion.TimeLimit_Name.toString(),
 				LangExpansion.TimeLimit_Description.toString(),

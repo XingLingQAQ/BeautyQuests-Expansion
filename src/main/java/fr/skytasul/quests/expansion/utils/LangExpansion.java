@@ -17,12 +17,14 @@ public enum LangExpansion implements Locale {
 	
 	Tracking_Trackers("tracking.trackers"), // 0: tracker amount
 	Tracking_Name("tracking.name"),
-	Tracking_Description("tracking.description"),
+	Tracking_Description("tracking.description"), // 0: available trackers
 	Tracking_Gui_Name("tracking.gui.name"),
 	Tracking_Particles_Name("tracking.particles.name"),
 	Tracking_Particles_Description("tracking.particles.description"),
-	Tracking_Outline_Name("tracking.outline.name"),
-	Tracking_Outline_Description("tracking.outline.description"),
+	Tracking_Outline_Block_Name("tracking.outlineBlock.name"),
+	Tracking_Outline_Block_Description("tracking.outlineBlock.description"),
+	Tracking_Outline_Region_Name("tracking.outlineRegion.name"),
+	Tracking_Outline_Region_Description("tracking.outlineRegion.description"),
 	Tracking_Beacon_Name("tracking.beacon.name"),
 	Tracking_Beacon_Description("tracking.beacon.description"),
 	Tracking_Glowing_Name("tracking.glowing.name"),

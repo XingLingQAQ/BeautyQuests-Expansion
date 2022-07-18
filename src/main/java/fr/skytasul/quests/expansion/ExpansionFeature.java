@@ -43,7 +43,7 @@ public class ExpansionFeature {
 	
 	@Override
 	public String toString() {
-		String string = (loaded ? "§a" : "§c") + name + ":§f " + description;
+		String string = (loaded ? "§a" : "§c") + getName() + ":§f " + getDescription();
 		if (!loaded) string += " §c(" + LangExpansion.Features_Unloaded.toString() + ")";
 		return string;
 	}

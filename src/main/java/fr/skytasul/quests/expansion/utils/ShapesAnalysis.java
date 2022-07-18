@@ -12,7 +12,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
-import org.bukkit.util.VoxelShape;
 
 public class ShapesAnalysis {
 	
@@ -55,15 +54,14 @@ public class ShapesAnalysis {
 		Optional<AnalyzedEdges> precomputed = ANALYZED_EDGES.stream().filter(edges -> edges.match(blockData, resolution)).findAny();
 		if (precomputed.isPresent()) return precomputed.get().apply(block.getLocation());
 	
-		AnalyzedEdges edges = new AnalyzedEdges(blockData, resolution, getEdgePoints(block.getCollisionShape(), resolution));
+		AnalyzedEdges edges = new AnalyzedEdges(blockData, resolution, getEdgePoints(block.getCollisionShape().getBoundingBoxes(), resolution));
 		ANALYZED_EDGES.add(edges);
 		return edges.apply(block.getLocation());
 	}
 	
-	public static List<Vector> getEdgePoints(VoxelShape shape, double resolution) {
-		List<Vector> list = new ArrayList<>((int) (1D / resolution * 12D));
+	public static List<Vector> getEdgePoints(Collection<BoundingBox> boxes, double resolution) {
+		List<Vector> list = new ArrayList<>((int) (1D / resolution * 12D * boxes.size()));
 		
-		Collection<BoundingBox> boxes = shape.getBoundingBoxes();
 		for (BoundingBox box : boxes) {
 			CoordinateConsumer consumer = (x, y, z) -> {
 				if (boxes

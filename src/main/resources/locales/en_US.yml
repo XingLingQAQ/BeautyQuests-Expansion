@@ -12,16 +12,21 @@ timelimit:
   editor: Write the maximum duration a player can take to complete this quest.
 tracking:
   name: Objective trackers
-  description: Various helpful configurable objects which makes objective finding easier.
+  description: >-
+    Various helpful configurable objects which makes objective finding
+    easier. {0} available trackers.
   trackers: '{0} trackers'
   gui:
     name: §aTarget trackers
   particles:
     name: §dParticles
     description: Displays a specified particle effect on the targets of this stage.
-  outline:
+  outlineBlock:
     name: §dBlock outlines
     description: Displays particles on the edges of target blocks of this stage.
+  outlineRegion:
+    name: §dRegion outline
+    description: Displays particles on the edges of the target region.
   beacon:
     name: §dBeacon beam
     description: Displays a beacon beam in the direction of the stage target.
