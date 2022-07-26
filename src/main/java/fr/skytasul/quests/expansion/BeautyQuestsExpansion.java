@@ -2,6 +2,7 @@ package fr.skytasul.quests.expansion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -9,10 +10,15 @@ import fr.skytasul.quests.BeautyQuests;
 import fr.skytasul.quests.BeautyQuests.LoadingException;
 import fr.skytasul.quests.api.Locale;
 import fr.skytasul.quests.api.QuestsAPI;
+import fr.skytasul.quests.api.options.QuestOption;
 import fr.skytasul.quests.api.options.QuestOptionCreator;
+import fr.skytasul.quests.api.stages.StageType;
 import fr.skytasul.quests.expansion.api.tracking.TrackerRegistry;
 import fr.skytasul.quests.expansion.options.TimeLimitOption;
+import fr.skytasul.quests.expansion.stages.StageStatistic;
 import fr.skytasul.quests.expansion.utils.LangExpansion;
+import fr.skytasul.quests.gui.ItemUtils;
+import fr.skytasul.quests.utils.XMaterial;
 import fr.skytasul.quests.utils.logger.LoggerExpanded;
 
 public class BeautyQuestsExpansion extends JavaPlugin {
@@ -24,6 +30,7 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 		return instance;
 	}
 	
+	private Handler loggerHandler;
 	private List<ExpansionFeature> features = new ArrayList<>();
 	
 	private TrackerRegistry trackersRegistry;
@@ -32,6 +39,8 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 	public void onLoad() {
 		instance = this;
 		logger = new LoggerExpanded(getLogger());
+		loggerHandler = BeautyQuests.getInstance().getLoggerHandler().getSubhandler("Expansion");
+		if (loggerHandler != null) getLogger().addHandler(loggerHandler);
 	}
 	
 	@Override
@@ -89,6 +98,17 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 				LangExpansion.TimeLimit_Description.toString(),
 				() -> QuestsAPI.registerQuestOption(new QuestOptionCreator<>("timeLimit", 40, TimeLimitOption.class, TimeLimitOption::new, 0)),
 				null));
+		features.add(new ExpansionFeature(
+				LangExpansion.Stage_Statistic_Name.toString(),
+				LangExpansion.Stage_Statistic_Description.toString(),
+				() -> QuestsAPI.getStages().register(new StageType<>(
+						"statistic",
+						StageStatistic.class,
+						LangExpansion.Stage_Statistic_Name.toString(),
+						StageStatistic::deserialize,
+						ItemUtils.item(XMaterial.FEATHER, "§a" + LangExpansion.Stage_Statistic_Name.toString(), QuestOption.formatDescription(LangExpansion.Stage_Statistic_Description.toString()), "", LangExpansion.Expansion_Label.toString()),
+						StageStatistic.Creator::new)),
+				null));
 	}
 	
 	private void loadFeatures() {
@@ -114,7 +134,7 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 	}
 	
 	public void logMessage(String message) {
-		BeautyQuests.getInstance().getLoggerHandler().write("[EXPANSION] " + message);
+		BeautyQuests.getInstance().getLoggerHandler().write(message, "Expansion");
 	}
 	
 }

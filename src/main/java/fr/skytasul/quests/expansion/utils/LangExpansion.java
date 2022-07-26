@@ -15,6 +15,19 @@ public enum LangExpansion implements Locale {
 	TimeLimit_Left("timelimit.left"), // 0: left duration
 	TimeLimit_EDITOR("timelimit.editor", Lang.EditorPrefix),
 	
+	Stage_Statistic_Name("stage.statistic.name"),
+	Stage_Statistic_Description("stage.statistic.description"),
+	Stage_Statistic_Advancement("stage.statistic.advancement"), // 0: statistic, 1: player remaining
+	Stage_Statistic_Item_Stat("stage.statistic.gui.stat"),
+	Stage_Statistic_Item_Limit("stage.statistic.gui.limit"),
+	Stage_Statistic_Item_Relative("stage.statistic.gui.relative"),
+	Stage_Statistic_Item_Relative_Description("stage.statistic.gui.relativeDescription"),
+	Stage_Statistic_StatList_Gui_Name("stage.statistic.gui.stats.name"),
+	Stage_Statistic_StatList_Gui_Block("stage.statistic.gui.stats.block"),
+	Stage_Statistic_StatList_Gui_Item("stage.statistic.gui.stats.item"),
+	Stage_Statistic_StatList_Gui_Entity("stage.statistic.gui.stats.entity"),
+	Stage_Statistic_EDITOR_LIMIT("stage.statistic.editor.limit", Lang.EditorPrefix),
+	
 	Tracking_Trackers("tracking.trackers"), // 0: tracker amount
 	Tracking_Name("tracking.name"),
 	Tracking_Description("tracking.description"), // 0: available trackers

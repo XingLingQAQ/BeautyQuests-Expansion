@@ -10,6 +10,28 @@ timelimit:
     the quest within the setup duration after they start the quest.
   left: '§8> Time left: §7{0}'
   editor: Write the maximum duration a player can take to complete this quest.
+stage:
+  statistic:
+    name: Statistic stage
+    description: >-
+      Requires the player to match a specific statistic value, such as
+      "distance walked" or "chests opened".
+    advancement: 'Reach {1} of statistic {0}'
+    gui:
+      stat: '§dTarget statistic'
+      limit: '§cTarget limit'
+      relative: 'Relative limit'
+      relativeDescription: >-
+        If this option is enabled, then the limit will not be absolute.
+        Instead, it will be the difference between the player statistic
+        when it starts the quest and at any given moment.
+      stats:
+        name: 'Choose the statistic'
+        block: 'Block parameter'
+        item: 'Item parameter'
+        entity: 'Entity parameter'
+    editor:
+      limit: 'Write the target limit for the selected statistic:'
 tracking:
   name: Objective trackers
   description: >-
