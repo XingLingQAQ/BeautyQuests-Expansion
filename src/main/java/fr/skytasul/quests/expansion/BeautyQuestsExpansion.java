@@ -1,10 +1,14 @@
 package fr.skytasul.quests.expansion;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Handler;
 
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.tchristofferson.configupdater.ConfigUpdater;
 
 import fr.skytasul.quests.BeautyQuests;
 import fr.skytasul.quests.BeautyQuests.LoadingException;
@@ -51,6 +55,7 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 			
 			logMessage("Hooked expansion version " + getDescription().getVersion());
 			
+			loadConfig();
 			loadLang();
 			
 			addDefaultFeatures();
@@ -74,9 +79,18 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 		unloadFeatures();
 	}
 	
+	private void loadConfig() {
+		try {
+			saveDefaultConfig();
+			ConfigUpdater.update(this, "config.yml", new File(getDataFolder(), "config.yml"));
+		}catch (IOException ex) {
+			logger.severe("An exception occurred while loading config file.", ex);
+		}
+	}
+	
 	private void loadLang() throws LoadingException {
 		try {
-			Locale.loadLang(this, LangExpansion.values(), "en_US", "en_US");
+			Locale.loadLang(this, LangExpansion.values(), getConfig().getString("lang"), "en_US", "fr_FR");
 		}catch (Exception ex) {
 			throw new LoadingException("Couldn't load language file.", ex);
 		}

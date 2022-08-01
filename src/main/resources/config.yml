@@ -1,0 +1,2 @@
+# Language of the plugin. Will determine which file (located in the /locales directory) will be used.
+lang: en_US

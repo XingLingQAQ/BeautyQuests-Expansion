@@ -1,0 +1,52 @@
+expansion:
+  label: '§d§l§oFonctionnalité de l''extension !'
+features:
+  header: '§fFonctionnalités de l''extension ({0}) :'
+  unloaded: '(non chargé)'
+timelimit:
+  name: Limite de temps
+  description: >-
+    Limite de temps pour la quête. Les joueurs ne seront en mesure de terminer la quête que dans la durée paramétrée après le début de la quête.
+  left: '§8> Temps restant : §7{0}'
+  editor: Écrivez la durée maximale qu'un joueur peut prendre pour accomplir cette quête.
+stage:
+  statistic:
+    name: Étape de statistique
+    description: >-
+      Nécessite que le joueur corresponde à une valeur statistique spécifique, telle que "distance parcourue" ou "coffres ouverts".
+    advancement: 'Atteindre {1} de la statistique {0}'
+    gui:
+      stat: '§dStatistique cible'
+      limit: '§cLimite cible'
+      relative: 'Limite relative'
+      relativeDescription: >-
+        Si cette option est activée, la limite ne sera pas absolue. Au lieu de cela, elle sera la différence entre la statistique du joueur quand il commence la quête et celle-ci à tout moment.
+      stats:
+        name: 'Choisir la statistique'
+        block: 'Paramètre "bloc"'
+        item: 'Paramètre "item"'
+        entity: 'Paramètre "entité"'
+    editor:
+      limit: 'Écrivez la limite cible pour la statistique sélectionnée :'
+tracking:
+  name: Traqueurs d'objectif
+  description: >-
+    Objets configurables utiles pour faciliter la recherche des objectifs. {0} traqueurs disponibles.
+  trackers: '{0} traqueurs'
+  gui:
+    name: '§aTraqueurs d''objectif'
+  particles:
+    name: '§dParticules'
+    description: Affiche un effet de particules spécifié sur les cibles de cette étape.
+  outlineBlock:
+    name: '§dContour des blocs'
+    description: Affiche des particules sur les bords des blocs cibles de cette étape.
+  outlineRegion:
+    name: '§dContour de la région'
+    description: Affiche des particules sur les bords de la région cible.
+  beacon:
+    name: '§dRayon de balise'
+    description: Affiche un rayon de balise dans la direction de la cible.
+  glowing:
+    name: '§dBrillant'
+    description: Fait briller les blocs ou les entités ciblés.
