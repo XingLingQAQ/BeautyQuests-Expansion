@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -16,6 +17,8 @@ import org.bukkit.scheduler.BukkitTask;
 
 import fr.skytasul.quests.api.events.QuestFinishEvent;
 import fr.skytasul.quests.api.events.QuestLaunchEvent;
+import fr.skytasul.quests.api.events.accounts.PlayerAccountJoinEvent;
+import fr.skytasul.quests.api.events.accounts.PlayerAccountLeaveEvent;
 import fr.skytasul.quests.api.options.OptionSet;
 import fr.skytasul.quests.api.options.QuestOption;
 import fr.skytasul.quests.api.options.description.QuestDescriptionContext;
@@ -29,8 +32,6 @@ import fr.skytasul.quests.gui.creation.FinishGUI;
 import fr.skytasul.quests.gui.quests.PlayerListGUI.Category;
 import fr.skytasul.quests.players.PlayerAccount;
 import fr.skytasul.quests.players.PlayerQuestDatas;
-import fr.skytasul.quests.players.events.PlayerAccountJoinEvent;
-import fr.skytasul.quests.players.events.PlayerAccountLeaveEvent;
 import fr.skytasul.quests.structure.Quest;
 import fr.skytasul.quests.utils.Utils;
 import fr.skytasul.quests.utils.XMaterial;
@@ -116,7 +117,7 @@ public class TimeLimitOption extends QuestOption<Integer> implements Listener, Q
 		if (task != null) task.cancel();
 	}
 	
-	@EventHandler
+	@EventHandler (priority = EventPriority.HIGHEST)
 	public void onAccountJoin(PlayerAccountJoinEvent event) {
 		if (getAttachedQuest().hasStarted(event.getPlayerAccount())) startTask(event.getPlayerAccount());
 	}

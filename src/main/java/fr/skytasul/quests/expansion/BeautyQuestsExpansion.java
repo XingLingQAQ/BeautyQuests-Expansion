@@ -8,8 +8,6 @@ import java.util.logging.Handler;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.tchristofferson.configupdater.ConfigUpdater;
-
 import fr.skytasul.quests.BeautyQuests;
 import fr.skytasul.quests.BeautyQuests.LoadingException;
 import fr.skytasul.quests.api.Locale;
@@ -19,10 +17,12 @@ import fr.skytasul.quests.api.options.QuestOptionCreator;
 import fr.skytasul.quests.api.stages.StageType;
 import fr.skytasul.quests.expansion.api.tracking.TrackerRegistry;
 import fr.skytasul.quests.expansion.options.TimeLimitOption;
+import fr.skytasul.quests.expansion.points.QuestPointsManager;
 import fr.skytasul.quests.expansion.stages.StageStatistic;
 import fr.skytasul.quests.expansion.utils.LangExpansion;
 import fr.skytasul.quests.gui.ItemUtils;
 import fr.skytasul.quests.utils.XMaterial;
+import fr.skytasul.quests.utils.configupdater.ConfigUpdater;
 import fr.skytasul.quests.utils.logger.LoggerExpanded;
 
 public class BeautyQuestsExpansion extends JavaPlugin {
@@ -38,6 +38,7 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 	private List<ExpansionFeature> features = new ArrayList<>();
 	
 	private TrackerRegistry trackersRegistry;
+	private QuestPointsManager pointsManager;
 	
 	@Override
 	public void onLoad() {
@@ -123,6 +124,11 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 						ItemUtils.item(XMaterial.FEATHER, "§a" + LangExpansion.Stage_Statistic_Name.toString(), QuestOption.formatDescription(LangExpansion.Stage_Statistic_Description.toString()), "", LangExpansion.Expansion_Label.toString()),
 						StageStatistic.Creator::new)),
 				null));
+		features.add(new ExpansionFeature(
+				LangExpansion.Points_Name.toString(),
+				LangExpansion.Points_Description.toString(),
+				() -> pointsManager = new QuestPointsManager(),
+				null));
 	}
 	
 	private void loadFeatures() {
@@ -145,6 +151,10 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 	
 	public TrackerRegistry getTrackersRegistry() {
 		return trackersRegistry;
+	}
+	
+	public QuestPointsManager getPointsManager() {
+		return pointsManager;
 	}
 	
 	public void logMessage(String message) {

@@ -55,3 +55,21 @@ tracking:
   glowing:
     name: §dGlowing
     description: Makes the targeted blocks or entities glow.
+points:
+  name: Quest points
+  description: >-
+    Every player has its own amount of points, which can be given as rewards
+    and tested for requirements on quests.
+  value: '{0} quest points'
+  reward:
+    description: Gives a set amount of quest points to the player
+    editor:
+      min: 'Enter the minimum amount of points the player will obtain:'
+      max: 'Enter the maximum amount of points the player will obtain:'
+  requirement:
+    description: Requires the player to have a set amount of quest points
+    message: Your amount of quest points must be {0}!
+    editor:
+      target: 'Enter the target amount of quest points:'
+  command:
+    balance: §aYou have §l{0}§a quest points!

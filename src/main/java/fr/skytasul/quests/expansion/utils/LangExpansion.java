@@ -43,6 +43,17 @@ public enum LangExpansion implements Locale {
 	Tracking_Glowing_Name("tracking.glowing.name"),
 	Tracking_Glowing_Description("tracking.glowing.description"),
 	
+	Points_Name("points.name"),
+	Points_Description("points.description"),
+	Points_Value("points.value"), // 0: points amount
+	Points_Reward_Description("points.reward.description"),
+	Points_Reward_Editor_Min("points.reward.editor.min", Lang.EditorPrefix),
+	Points_Reward_Editor_Max("points.reward.editor.max", Lang.EditorPrefix),
+	Points_Requirement_Description("points.requirement.description"),
+	Points_Requirement_Message("points.requirement.message", Lang.RequirementNotMetPrefix), // 0: points amount required
+	Points_Requirement_Editor_Target("points.requirement.editor.target", Lang.EditorPrefix),
+	Points_Command_Balance("points.command.balance"), // 0: points
+	
 	;
 	
 	private final String path;
