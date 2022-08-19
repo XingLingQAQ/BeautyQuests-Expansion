@@ -50,3 +50,20 @@ tracking:
   glowing:
     name: '§dBrillant'
     description: Fait briller les blocs ou les entités ciblés.
+points:
+  name: Points de quête
+  description: >-
+    Chaque joueur a son propre nombre de points, qui peuvent être donnés comme récompenses et utilisés dans les conditions de quêtes.
+  value: '{0} points de quête'
+  reward:
+    description: Donne un certain nombre de points de quête au joueur
+    editor:
+      min: 'Entrez le nombre de points minimum que le joueur obtiendra :'
+      max: 'Entrez le nombre de points maximum que le joueur obtiendra :'
+  requirement:
+    description: Nécessite que le joueur ait un certain nombre de points de quête
+    message: Votre nombre de points de quête doit être {0} !
+    editor:
+      target: 'Entrez le nombre de points de quête voulu :'
+  command:
+    balance: '§aVous avez §l{0}§a points de quête !'

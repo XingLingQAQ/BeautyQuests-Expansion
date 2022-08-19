@@ -54,6 +54,9 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 			logger.info("------- BeautyQuests Expansion -------");
 			logger.info("Thank you for purchasing the expansion!");
 			
+			if (!BeautyQuests.getInstance().isEnabled())
+				throw new LoadingException("BeautyQuests has not been properly loaded.");
+			
 			logMessage("Hooked expansion version " + getDescription().getVersion());
 			
 			loadConfig();
@@ -91,7 +94,7 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 	
 	private void loadLang() throws LoadingException {
 		try {
-			Locale.loadLang(this, LangExpansion.values(), getConfig().getString("lang"), "en_US", "fr_FR");
+			Locale.loadLang(this, LangExpansion.values(), getConfig().getString("lang"));
 		}catch (Exception ex) {
 			throw new LoadingException("Couldn't load language file.", ex);
 		}
