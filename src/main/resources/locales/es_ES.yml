@@ -1,0 +1,69 @@
+expansion:
+  label: '§d§l§o¡Función de expansión!'
+features:
+  header: '§fFunciones de expansiones ({0}):'
+  unloaded: '(no cargado)'
+timelimit:
+  name: Límite de tiempo
+  description: >-
+    Límite de tiempo para la misión. Los jugadores sólo podrán completar la misión dentro de la duración de la configuración después de que comiencen la misión.
+  left: '§8> Tiempo restante: §7{0}'
+  editor: Escribe la duración máxima que un jugador puede tomar para completar esta misión.
+stage:
+  statistic:
+    name: Etapa estática
+    description: >-
+      Requiere que el jugador coincida con un valor estadístico específico, como "distancia recorrida" o "cofres abiertos".
+    advancement: 'Alcanza {1} de la estadística {0}'
+    gui:
+      stat: '§dEstadística de destino'
+      limit: '§cLímite objetivo'
+      relative: 'Límite relativo'
+      relativeDescription: >-
+        Si esta opción está activada, el límite no será absoluto. En su lugar, será la diferencia entre la estadística del jugador cuando comience la misión y en cualquier momento dado.
+      stats:
+        name: 'Elija la estadística'
+        block: 'Parámetro de bloque'
+        item: 'Parámetro del objeto'
+        entity: 'Parámetro de entidad'
+    editor:
+      limit: 'Escriba el límite de destino para las estadísticas seleccionadas:'
+tracking:
+  name: Buscador de objetivo
+  description: >-
+    Varios objetos configurables útiles que facilitan la búsqueda objetiva. {0} rastreadores disponibles.
+  trackers: '{0} rastreadores'
+  gui:
+    name: '§aRastreadores de objetivos'
+  particles:
+    name: '§dPartículas'
+    description: Muestra un efecto de partículas específico en los objetivos de esta etapa.
+  outlineBlock:
+    name: '§dContornos del bloque'
+    description: Muestra las partículas en los bordes de los bloques objetivo de esta etapa.
+  outlineRegion:
+    name: '§dContorno de región'
+    description: Muestra las partículas en los bordes de la región objetivo.
+  beacon:
+    name: '§dRayo de faro'
+    description: Muestra un rayo de faro en la dirección del objetivo del escenario.
+  glowing:
+    name: '§dBrillante'
+    description: Hace que los bloques o entidades objetivo brillen.
+points:
+  name: Puntos de misión
+  description: >-
+    Cada jugador tiene su propia cantidad de puntos, que pueden ser entregados como recompensas y probados para los requisitos de las misiones.
+  value: '{0} puntos de misión'
+  reward:
+    description: Da una cantidad determinada de puntos de misión al jugador
+    editor:
+      min: 'Introduzca la cantidad mínima de puntos que obtendrá el jugador:'
+      max: 'Introduzca la cantidad máxima de puntos que obtendrá el jugador:'
+  requirement:
+    description: Requiere que el jugador tenga una cantidad determinada de puntos de misión
+    message: '¡Tu cantidad de puntos de misión debe ser {0}!'
+    editor:
+      target: 'Ingresa la cantidad objetivo de puntos de misión:'
+  command:
+    balance: '§a¡Tienes §l{0}§a puntos de misión!'
