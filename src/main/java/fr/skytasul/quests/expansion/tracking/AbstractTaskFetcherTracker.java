@@ -23,6 +23,7 @@ public abstract class AbstractTaskFetcherTracker extends AbstractTaskShownTracke
 	
 	@Override
 	public void run() {
+		if (shown.isEmpty()) return;
 		if (locatable instanceof Locatable.PreciseLocatable) {
 			Locatable.PreciseLocatable precise = (PreciseLocatable) locatable;
 			Located located = precise.getLocated();

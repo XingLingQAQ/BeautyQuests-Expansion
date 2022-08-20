@@ -133,7 +133,7 @@ public class BeaconTracker extends AbstractTaskTracker {
 		if (event.isInCreation()) return;
 		Lang.COLOR_NAMED_EDITOR.send(event.getPlayer());
 		new TextEditor<>(event.getPlayer(), event::reopenGUI, newColor -> {
-			this.color = newColor;
+			setColor(newColor);
 			event.updateItemLore(getLore());
 			event.reopenGUI();
 		}, new EnumParser<>(DyeColor.class)).enter();
@@ -146,7 +146,7 @@ public class BeaconTracker extends AbstractTaskTracker {
 	
 	@Override
 	public void load(ConfigurationSection section) {
-		if (section.contains("color")) color = DyeColor.valueOf(section.getString("color"));
+		if (section.contains("color")) setColor(DyeColor.valueOf(section.getString("color")));
 	}
 	
 	class PlayerBeacon {

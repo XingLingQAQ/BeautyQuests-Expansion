@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Handler;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -57,6 +59,9 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 			if (!BeautyQuests.getInstance().isEnabled())
 				throw new LoadingException("BeautyQuests has not been properly loaded.");
 			
+			if (!isBQUpToDate())
+				throw new LoadingException("This version of the expansion is not compatible with the version of BeautyQuests.");
+			
 			logMessage("Hooked expansion version " + getDescription().getVersion());
 			
 			loadConfig();
@@ -81,6 +86,31 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		unloadFeatures();
+	}
+	
+	private boolean isBQUpToDate() {
+		Pattern bqVersion = Pattern.compile("(\\d+)\\.(\\d+)(?>\\.(\\d+))?(?>_BUILD(.+))?");
+		Matcher matcher = bqVersion.matcher(BeautyQuests.getInstance().getDescription().getVersion());
+		if (matcher.find()) {
+			int major = Integer.parseInt(matcher.group(1));
+			int minor = Integer.parseInt(matcher.group(2));
+			String revisionStr = matcher.group(3);
+			int revision = revisionStr == null ? 0 : Integer.parseInt(revisionStr);
+			
+			if (major >= 0 && minor >= 20) {
+				String buildStr = matcher.group(4);
+				if (buildStr == null) return true;
+				try {
+					int build = Integer.parseInt(buildStr);
+					return build >= 330;
+				}catch (NumberFormatException ex) {
+					// means that the build number is not actually a number
+					// will fallback to "cannot parse"
+				}
+			}else return false;
+		}
+		logger.warning("Cannot parse BeautyQuests version.");
+		return true;
 	}
 	
 	private void loadConfig() {
