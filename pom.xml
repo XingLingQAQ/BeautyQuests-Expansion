@@ -5,7 +5,7 @@
 
 	<groupId>fr.skytasul</groupId>
 	<artifactId>beautyquests-expansion</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>BeautyQuests Expansion</name>
@@ -16,6 +16,20 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
+
+	<developers>
+		<developer>
+			<name>SkytAsul</name>
+			<email>skytasul@gmail.com</email>
+			<url>https://github.com/SkytAsul</url>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/SkytAsul/BeautyQuests-Expansion.git</connection>
+		<developerConnection>scm:git:ssh://github.com:SkytAsul/BeautyQuests-Expansion.git</developerConnection>
+		<url>http://github.com/SkytAsul/BeautyQuests-Expansion/tree/master</url>
+	</scm>
 
 	<build>
 		<resources>
