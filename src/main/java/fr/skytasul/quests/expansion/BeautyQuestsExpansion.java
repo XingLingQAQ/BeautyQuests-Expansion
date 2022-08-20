@@ -36,7 +36,6 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 		return instance;
 	}
 	
-	private Handler loggerHandler;
 	private List<ExpansionFeature> features = new ArrayList<>();
 	
 	private TrackerRegistry trackersRegistry;
@@ -45,9 +44,13 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 	@Override
 	public void onLoad() {
 		instance = this;
-		logger = new LoggerExpanded(getLogger());
-		loggerHandler = BeautyQuests.getInstance().getLoggerHandler().getSubhandler("Expansion");
-		if (loggerHandler != null) getLogger().addHandler(loggerHandler);
+		try {
+			logger = new LoggerExpanded(getLogger());
+			Handler loggerHandler = BeautyQuests.getInstance().getLoggerHandler().getSubhandler("Expansion");
+			if (loggerHandler != null) getLogger().addHandler(loggerHandler);
+		}catch (Throwable ex) {
+			getLogger().severe("Failed to inject custom loggers. This may be due to BeautyQuests being outdated.");
+		}
 	}
 	
 	@Override
