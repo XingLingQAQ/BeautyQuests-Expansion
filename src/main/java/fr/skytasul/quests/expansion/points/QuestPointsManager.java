@@ -1,21 +1,26 @@
 package fr.skytasul.quests.expansion.points;
 
+import org.bukkit.entity.Player;
+
 import fr.skytasul.quests.BeautyQuests;
 import fr.skytasul.quests.api.QuestsAPI;
 import fr.skytasul.quests.api.data.SavableData;
 import fr.skytasul.quests.api.options.QuestOption;
 import fr.skytasul.quests.api.requirements.RequirementCreator;
 import fr.skytasul.quests.api.rewards.RewardCreator;
-import fr.skytasul.quests.commands.Cmd;
-import fr.skytasul.quests.commands.CommandContext;
+import fr.skytasul.quests.commands.revxrsal.annotation.Default;
+import fr.skytasul.quests.commands.revxrsal.annotation.Optional;
+import fr.skytasul.quests.commands.revxrsal.annotation.Subcommand;
+import fr.skytasul.quests.commands.revxrsal.bukkit.BukkitCommandActor;
+import fr.skytasul.quests.commands.revxrsal.command.ExecutableCommand;
+import fr.skytasul.quests.commands.revxrsal.orphan.OrphanCommand;
 import fr.skytasul.quests.expansion.utils.LangExpansion;
 import fr.skytasul.quests.gui.ItemUtils;
 import fr.skytasul.quests.players.PlayerAccount;
 import fr.skytasul.quests.players.PlayersManager;
-import fr.skytasul.quests.utils.Lang;
 import fr.skytasul.quests.utils.XMaterial;
 
-public class QuestPointsManager {
+public class QuestPointsManager implements OrphanCommand {
 	
 	private SavableData<Integer> pointsData = new SavableData<>("points", Integer.class, 0);
 	
@@ -43,7 +48,7 @@ public class QuestPointsManager {
 						LangExpansion.Expansion_Label.toString()),
 				QuestPointsRequirement::new));
 		
-		BeautyQuests.getInstance().getCommand().registerCommandsClass(this);
+		BeautyQuests.getInstance().getCommand().registerCommands("points", this);
 	}
 	
 	public int getPoints(PlayerAccount acc) {
@@ -54,16 +59,23 @@ public class QuestPointsManager {
 		acc.setData(pointsData, getPoints(acc) + points);
 	}
 	
-	@Cmd
-	public void points(CommandContext cmd) {
-		if (cmd.args.length == 0) {
-			if (cmd.isPlayer()) {
-				int points = getPoints(PlayersManager.getPlayerAccount(cmd.player));
-				LangExpansion.Points_Command_Balance.send(cmd.player, points);
-			}else {
-				Lang.MUST_PLAYER.send(cmd.sender);
-			}
-		}
+	@Default
+	public void pointsSelf(BukkitCommandActor actor, ExecutableCommand command, @Optional String subcommand) {
+		if (subcommand != null) throw new fr.skytasul.quests.commands.revxrsal.exception.InvalidSubcommandException(command.getPath(), subcommand);
+		int points = getPoints(PlayersManager.getPlayerAccount(actor.requirePlayer()));
+		LangExpansion.Points_Command_Balance.send(actor.getSender(), points);
+	}
+	
+	@Subcommand ("get")
+	public void pointsGet(BukkitCommandActor actor, Player player) {
+		int points = getPoints(PlayersManager.getPlayerAccount(player));
+		LangExpansion.Points_Command_Balance_Player.send(actor.getSender(), points, player.getName());
+	}
+	
+	@Subcommand ("add")
+	public void pointsAdd(BukkitCommandActor actor, Player player, int points) {
+		addPoints(PlayersManager.getPlayerAccount(player), points);
+		LangExpansion.Points_Command_Added.send(actor.getSender(), points, player.getName());
 	}
 	
 }

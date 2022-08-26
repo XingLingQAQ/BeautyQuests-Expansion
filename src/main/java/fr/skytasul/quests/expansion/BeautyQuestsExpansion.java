@@ -83,7 +83,7 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 	}
 	
 	private void registerCommands() {
-		BeautyQuests.getInstance().getCommand().registerCommandsClass(new ExpansionCommands());
+		BeautyQuests.getInstance().getCommand().registerCommands("", new ExpansionCommands());
 	}
 	
 	@Override

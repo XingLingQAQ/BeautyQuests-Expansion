@@ -73,3 +73,5 @@ points:
       target: 'Enter the target amount of quest points:'
   command:
     balance: §aYou have §l{0}§a quest points!
+    balancePlayer: '§a{1}''s balance: {0} quest points.'
+    added: 'Added {0} quests points to {1}''s balance.'

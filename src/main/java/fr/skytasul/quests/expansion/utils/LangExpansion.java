@@ -53,6 +53,8 @@ public enum LangExpansion implements Locale {
 	Points_Requirement_Message("points.requirement.message", Lang.RequirementNotMetPrefix), // 0: points amount required
 	Points_Requirement_Editor_Target("points.requirement.editor.target", Lang.EditorPrefix),
 	Points_Command_Balance("points.command.balance"), // 0: points
+	Points_Command_Balance_Player("points.command.balancePlayer"), // 0: points, 1: player
+	Points_Command_Added("points.command.added", Lang.SuccessPrefix), // 0: points, 1: player
 	
 	;
 	
