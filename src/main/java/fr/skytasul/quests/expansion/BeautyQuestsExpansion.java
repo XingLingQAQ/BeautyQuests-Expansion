@@ -147,7 +147,7 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 		features.add(new ExpansionFeature(
 				LangExpansion.TimeLimit_Name.toString(),
 				LangExpansion.TimeLimit_Description.toString(),
-				() -> QuestsAPI.registerQuestOption(new QuestOptionCreator<>("timeLimit", 40, TimeLimitOption.class, TimeLimitOption::new, 0)),
+				() -> QuestsAPI.registerQuestOption(new QuestOptionCreator<>("timeLimit", 42, TimeLimitOption.class, TimeLimitOption::new, 0)),
 				null));
 		features.add(new ExpansionFeature(
 				LangExpansion.Stage_Statistic_Name.toString(),
