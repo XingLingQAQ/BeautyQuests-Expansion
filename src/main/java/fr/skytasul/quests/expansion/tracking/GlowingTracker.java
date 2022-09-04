@@ -146,7 +146,6 @@ public class GlowingTracker extends AbstractTaskTracker {
 		Lang.COLOR_NAMED_EDITOR.send(event.getPlayer());
 		new TextEditor<>(event.getPlayer(), event::reopenGUI, newColor -> {
 			this.color = newColor;
-			event.updateItemLore(getLore());
 			event.reopenGUI();
 		}, new EnumParser<>(ChatColor.class, ChatColor::isColor)).enter();
 	}

@@ -60,7 +60,6 @@ public class QuestPointsReward extends AbstractReward {
 				min = newMin;
 				max = newMax;
 				
-				event.updateItemLore(getLore());
 				event.reopenGUI();
 			}, NumberParser.INTEGER_PARSER_POSITIVE).enter();
 		}, NumberParser.INTEGER_PARSER_POSITIVE).enter();

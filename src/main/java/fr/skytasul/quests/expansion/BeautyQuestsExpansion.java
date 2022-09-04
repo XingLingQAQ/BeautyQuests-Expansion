@@ -105,7 +105,7 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 				if (buildStr == null) return true;
 				try {
 					int build = Integer.parseInt(buildStr);
-					return build >= 330;
+					return build >= 333;
 				}catch (NumberFormatException ex) {
 					// means that the build number is not actually a number
 					// will fallback to "cannot parse"

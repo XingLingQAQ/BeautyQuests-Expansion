@@ -134,7 +134,6 @@ public class BeaconTracker extends AbstractTaskTracker {
 		Lang.COLOR_NAMED_EDITOR.send(event.getPlayer());
 		new TextEditor<>(event.getPlayer(), event::reopenGUI, newColor -> {
 			setColor(newColor);
-			event.updateItemLore(getLore());
 			event.reopenGUI();
 		}, new EnumParser<>(DyeColor.class)).enter();
 	}

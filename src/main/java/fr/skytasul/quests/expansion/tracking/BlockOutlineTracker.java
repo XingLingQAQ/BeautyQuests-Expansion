@@ -70,13 +70,11 @@ public class BlockOutlineTracker extends AbstractTaskFetcherTracker {
 					Lang.COLOR_EDITOR.send(event.getPlayer());
 					new TextEditor<>(event.getPlayer(), event::reopenGUI, color -> {
 						particles = new ParticleEffect(newParticle, null, color);
-						event.updateItemLore(getLore());
 						event.reopenGUI();
 					}, ColorParser.PARSER).enter();
 					return;
 				}
 				particles = new ParticleEffect(newParticle, null, null);
-				event.updateItemLore(getLore());
 			}
 			event.reopenGUI();
 		}).create(event.getPlayer());

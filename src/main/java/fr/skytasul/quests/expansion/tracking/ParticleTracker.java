@@ -46,8 +46,7 @@ public class ParticleTracker extends AbstractTaskFetcherTracker {
 	public void itemClick(QuestObjectClickEvent event) {
 		if (event.isInCreation()) return;
 		new ParticleEffectGUI(newEffect -> {
-			particles = newEffect;
-			event.updateItemLore(getLore());
+			if (newEffect != null) particles = newEffect;
 			event.reopenGUI();
 		}, particles).create(event.getPlayer());
 	}
