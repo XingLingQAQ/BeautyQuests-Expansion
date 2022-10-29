@@ -1,6 +1,7 @@
 package fr.skytasul.quests.expansion.points;
 
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionDefault;
 
 import fr.skytasul.quests.BeautyQuests;
 import fr.skytasul.quests.api.QuestsAPI;
@@ -12,6 +13,7 @@ import fr.skytasul.quests.commands.revxrsal.annotation.Default;
 import fr.skytasul.quests.commands.revxrsal.annotation.Optional;
 import fr.skytasul.quests.commands.revxrsal.annotation.Subcommand;
 import fr.skytasul.quests.commands.revxrsal.bukkit.BukkitCommandActor;
+import fr.skytasul.quests.commands.revxrsal.bukkit.annotation.CommandPermission;
 import fr.skytasul.quests.commands.revxrsal.command.ExecutableCommand;
 import fr.skytasul.quests.commands.revxrsal.orphan.OrphanCommand;
 import fr.skytasul.quests.expansion.utils.LangExpansion;
@@ -60,6 +62,7 @@ public class QuestPointsManager implements OrphanCommand {
 	}
 	
 	@Default
+	@CommandPermission (value = "beautyquests.expansion.command.points", defaultAccess = PermissionDefault.TRUE)
 	public void pointsSelf(BukkitCommandActor actor, ExecutableCommand command, @Optional String subcommand) {
 		if (subcommand != null) throw new fr.skytasul.quests.commands.revxrsal.exception.InvalidSubcommandException(command.getPath(), subcommand);
 		int points = getPoints(PlayersManager.getPlayerAccount(actor.requirePlayer()));
@@ -67,12 +70,14 @@ public class QuestPointsManager implements OrphanCommand {
 	}
 	
 	@Subcommand ("get")
+	@CommandPermission (value = "beautyquests.expansion.command.points.get", defaultAccess = PermissionDefault.OP)
 	public void pointsGet(BukkitCommandActor actor, Player player) {
 		int points = getPoints(PlayersManager.getPlayerAccount(player));
 		LangExpansion.Points_Command_Balance_Player.send(actor.getSender(), points, player.getName());
 	}
 	
 	@Subcommand ("add")
+	@CommandPermission (value = "beautyquests.expansion.command.points.add", defaultAccess = PermissionDefault.OP)
 	public void pointsAdd(BukkitCommandActor actor, Player player, int points) {
 		addPoints(PlayersManager.getPlayerAccount(player), points);
 		LangExpansion.Points_Command_Added.send(actor.getSender(), points, player.getName());
