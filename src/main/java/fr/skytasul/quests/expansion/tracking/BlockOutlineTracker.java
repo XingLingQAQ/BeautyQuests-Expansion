@@ -5,7 +5,6 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-
 import fr.skytasul.quests.api.objects.QuestObjectClickEvent;
 import fr.skytasul.quests.api.options.QuestOption;
 import fr.skytasul.quests.api.stages.types.Locatable;
@@ -41,8 +40,8 @@ public class BlockOutlineTracker extends AbstractTaskFetcherTracker {
 	@Override
 	protected void display(Located located) {
 		if (located instanceof Located.LocatedBlock) {
-			Block block = ((Located.LocatedBlock) located).getBlock();
-			ShapesAnalysis.getEdgePoints(block, resolution).forEach(point -> particles.sendParticle(point, shown, 0, 0, 0, 1));
+			Block block = ((Located.LocatedBlock) located).getBlockNullable();
+			if (block != null) ShapesAnalysis.getEdgePoints(block, resolution).forEach(point -> particles.sendParticle(point, shown, 0, 0, 0, 1));
 		}
 	}
 	

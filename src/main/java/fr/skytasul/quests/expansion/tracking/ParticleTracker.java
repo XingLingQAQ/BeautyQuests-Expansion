@@ -4,8 +4,8 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-
 import fr.skytasul.quests.api.objects.QuestObjectClickEvent;
 import fr.skytasul.quests.api.options.QuestOption;
 import fr.skytasul.quests.api.stages.types.Locatable;
@@ -59,14 +59,17 @@ public class ParticleTracker extends AbstractTaskFetcherTracker {
 	@Override
 	protected void display(Located located) {
 		if (located instanceof Locatable.Located.LocatedEntity) {
-			particles.send(((Locatable.Located.LocatedEntity) located).getEntity(), shown);
+			Entity entity = ((Locatable.Located.LocatedEntity) located).getEntity();
+			if (entity != null) particles.send(entity, shown);
 			return;
 		}
 		
 		Location bottom;
 		double height;
 		if (located instanceof Locatable.Located.LocatedBlock) {
-			Block block = ((Locatable.Located.LocatedBlock) located).getBlock();
+			Block block = ((Locatable.Located.LocatedBlock) located).getBlockNullable();
+			if (block == null)
+				return;
 			if (NMS.getMCVersion() >= 17) {
 				bottom = ShapesAnalysis.getBlockBottom(block);
 				height = ShapesAnalysis.getBlockHeight(block);

@@ -81,9 +81,11 @@ public class GlowingTracker extends AbstractTaskTracker {
 			
 			if (located instanceof LocatedEntity) {
 				Entity entity = ((LocatedEntity) located).getEntity();
-				shown.forEach((player, set) -> {
-					findLocatedEntity(player, set, entity);
-				});
+				if (entity != null) {
+					shown.forEach((player, set) -> {
+						findLocatedEntity(player, set, entity);
+					});
+				}
 			}
 		}
 		
