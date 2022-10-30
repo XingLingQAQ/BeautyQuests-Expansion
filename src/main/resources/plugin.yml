@@ -8,3 +8,6 @@ prefix: 'BeautyQuests Expansion'
 
 depend:
 - BeautyQuests
+
+softdepend:
+- Rankup

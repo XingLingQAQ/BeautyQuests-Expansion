@@ -74,6 +74,10 @@
 			<id>sk89q-repo</id>
 			<url>https://maven.enginehub.org/repo/</url>
 		</repository>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -109,6 +113,12 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.okx-code</groupId>
+			<artifactId>Rankup3</artifactId>
+			<version>810c5ac268</version>
 		</dependency>
 	</dependencies>
 

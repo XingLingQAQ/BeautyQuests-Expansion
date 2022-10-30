@@ -1,8 +1,8 @@
 package fr.skytasul.quests.expansion.points;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
-
 import fr.skytasul.quests.BeautyQuests;
 import fr.skytasul.quests.api.QuestsAPI;
 import fr.skytasul.quests.api.data.SavableData;
@@ -16,11 +16,13 @@ import fr.skytasul.quests.commands.revxrsal.bukkit.BukkitCommandActor;
 import fr.skytasul.quests.commands.revxrsal.bukkit.annotation.CommandPermission;
 import fr.skytasul.quests.commands.revxrsal.command.ExecutableCommand;
 import fr.skytasul.quests.commands.revxrsal.orphan.OrphanCommand;
+import fr.skytasul.quests.expansion.BeautyQuestsExpansion;
 import fr.skytasul.quests.expansion.utils.LangExpansion;
 import fr.skytasul.quests.gui.ItemUtils;
 import fr.skytasul.quests.players.PlayerAccount;
 import fr.skytasul.quests.players.PlayersManager;
 import fr.skytasul.quests.utils.XMaterial;
+import fr.skytasul.quests.utils.compatibility.DependenciesManager.BQDependency;
 
 public class QuestPointsManager implements OrphanCommand {
 	
@@ -51,6 +53,14 @@ public class QuestPointsManager implements OrphanCommand {
 				QuestPointsRequirement::new));
 		
 		BeautyQuests.getInstance().getCommand().registerCommands("points", this);
+
+		BeautyQuests.getInstance().dependencies
+				.addDependency(new BQDependency("Rankup", () -> {
+					Bukkit.getPluginManager().registerEvents(new QuestPointsRankup(this),
+							BeautyQuests.getInstance());
+					BeautyQuestsExpansion.logger
+							.info("Registered Rankup quest points requirements.");
+				}));
 	}
 	
 	public int getPoints(PlayerAccount acc) {
