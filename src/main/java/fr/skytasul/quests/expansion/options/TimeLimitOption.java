@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -14,7 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
-
+import fr.skytasul.quests.api.events.PlayerQuestResetEvent;
 import fr.skytasul.quests.api.events.QuestFinishEvent;
 import fr.skytasul.quests.api.events.QuestLaunchEvent;
 import fr.skytasul.quests.api.events.accounts.PlayerAccountJoinEvent;
@@ -134,7 +133,12 @@ public class TimeLimitOption extends QuestOption<Integer> implements Listener, Q
 	
 	@EventHandler
 	public void onQuestFinish(QuestFinishEvent event) {
-		cancelTask(event.getPlayerAccount());
+		if (event.getQuest() == getAttachedQuest()) cancelTask(event.getPlayerAccount());
+	}
+	
+	@EventHandler
+	public void onQuestCancel(PlayerQuestResetEvent event) {
+		if (event.getQuest() == getAttachedQuest()) cancelTask(event.getPlayerAccount());
 	}
 	
 	@Override
