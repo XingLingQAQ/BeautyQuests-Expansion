@@ -159,6 +159,11 @@ public class TimeLimitOption extends QuestOption<Integer> implements Listener, Q
 	}
 	
 	@Override
+	public String getDescriptionId() {
+		return "time_left";
+	}
+
+	@Override
 	public double getDescriptionPriority() {
 		return 50;
 	}
