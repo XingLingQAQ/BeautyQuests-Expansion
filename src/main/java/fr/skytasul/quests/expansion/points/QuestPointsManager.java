@@ -3,6 +3,7 @@ package fr.skytasul.quests.expansion.points;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
+import org.jetbrains.annotations.Nullable;
 import fr.skytasul.quests.BeautyQuests;
 import fr.skytasul.quests.api.QuestsAPI;
 import fr.skytasul.quests.api.data.SavableData;
@@ -21,16 +22,27 @@ import fr.skytasul.quests.expansion.utils.LangExpansion;
 import fr.skytasul.quests.gui.ItemUtils;
 import fr.skytasul.quests.players.PlayerAccount;
 import fr.skytasul.quests.players.PlayersManager;
+import fr.skytasul.quests.players.PlayersManagerDB;
 import fr.skytasul.quests.utils.XMaterial;
 import fr.skytasul.quests.utils.compatibility.DependenciesManager.BQDependency;
 
 public class QuestPointsManager implements OrphanCommand {
 	
-	private SavableData<Integer> pointsData = new SavableData<>("points", Integer.class, 0);
+	protected SavableData<Integer> pointsData = new SavableData<>("points", Integer.class, 0);
 	
+	@Nullable
+	private QuestPointsLeaderboard leaderboard;
+
 	public QuestPointsManager() {
 		PlayersManager.manager.addAccountData(pointsData);
 		
+		if (PlayersManager.manager instanceof PlayersManagerDB) {
+			leaderboard = new QuestPointsLeaderboard(this, ((PlayersManagerDB) PlayersManager.manager));
+		} else {
+			BeautyQuestsExpansion.logger.warning(
+					"You are not using a database to save BeautyQuests datas. Quest points leaderboard is disabled.");
+		}
+
 		QuestsAPI.getRewards().register(new RewardCreator(
 				"points",
 				QuestPointsReward.class,
@@ -61,6 +73,10 @@ public class QuestPointsManager implements OrphanCommand {
 					BeautyQuestsExpansion.logger
 							.info("Registered Rankup quest points requirements.");
 				}));
+		BeautyQuests.getInstance().dependencies
+				.addDependency(new BQDependency("PlaceholderAPI", () -> {
+					new QuestPointsPlaceholders(this).register();
+				}));
 	}
 	
 	public int getPoints(PlayerAccount acc) {
@@ -71,6 +87,11 @@ public class QuestPointsManager implements OrphanCommand {
 		acc.setData(pointsData, getPoints(acc) + points);
 	}
 	
+	@Nullable
+	public QuestPointsLeaderboard getLeaderboard() {
+		return leaderboard;
+	}
+
 	@Default
 	@CommandPermission (value = "beautyquests.expansion.command.points", defaultAccess = PermissionDefault.TRUE)
 	public void pointsSelf(BukkitCommandActor actor, ExecutableCommand command, @Optional String subcommand) {
