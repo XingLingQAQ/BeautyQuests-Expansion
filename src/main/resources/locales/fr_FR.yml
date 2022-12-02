@@ -67,3 +67,5 @@ points:
       target: 'Entrez le nombre de points de quête voulu :'
   command:
     balance: '§aVous avez §l{0}§a points de quête !'
+    balancePlayer: '§a{1} a {0} points de quête.'
+    added: '{0} points de quête ajoutés à {1}.'
