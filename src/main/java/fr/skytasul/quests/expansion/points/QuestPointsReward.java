@@ -3,10 +3,8 @@ package fr.skytasul.quests.expansion.points;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-
 import fr.skytasul.quests.api.objects.QuestObjectClickEvent;
 import fr.skytasul.quests.api.options.QuestOption;
 import fr.skytasul.quests.api.rewards.AbstractReward;
@@ -31,14 +29,14 @@ public class QuestPointsReward extends AbstractReward {
 	
 	@Override
 	public List<String> give(Player p) {
-		int points = ThreadLocalRandom.current().nextInt(min, max + 1);
+		int points = min == max ? min : ThreadLocalRandom.current().nextInt(min, max + 1);
 		BeautyQuestsExpansion.getInstance().getPointsManager().addPoints(PlayersManager.getPlayerAccount(p), points);
 		return Arrays.asList(LangExpansion.Points_Value.format(points));
 	}
 	
 	@Override
 	public String getDescription(Player p) {
-		return LangExpansion.Points_Value.format(min + " - " + max);
+		return LangExpansion.Points_Value.format(min == max ? min : (min + " - " + max));
 	}
 	
 	@Override
