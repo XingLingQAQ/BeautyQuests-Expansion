@@ -8,12 +8,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-
 import fr.skytasul.glowingentities.GlowingEntities;
 import fr.skytasul.quests.api.objects.QuestObjectClickEvent;
 import fr.skytasul.quests.api.options.QuestOption;
@@ -83,7 +81,7 @@ public class GlowingTracker extends AbstractTaskTracker {
 				Entity entity = ((LocatedEntity) located).getEntity();
 				if (entity != null) {
 					shown.forEach((player, set) -> {
-						findLocatedEntity(player, set, entity);
+						foundLocatedEntity(player, set, entity);
 					});
 				}
 			}
@@ -94,7 +92,9 @@ public class GlowingTracker extends AbstractTaskTracker {
 			shown.forEach((player, set) -> {
 				Spliterator<Located> locateds = multiple.getNearbyLocated(NearbyFetcher.create(player.getLocation(), maxDistance, LocatedType.ENTITY));
 				for (int i = 0; i < maxAmount; i++) {
-					if (!locateds.tryAdvance(located -> findLocatedEntity(player, set, ((LocatedEntity) located).getEntity()))) break;
+					if (!locateds
+							.tryAdvance(located -> foundLocatedEntity(player, set, ((LocatedEntity) located).getEntity())))
+						break;
 				}
 			});
 		}
@@ -110,13 +110,13 @@ public class GlowingTracker extends AbstractTaskTracker {
 		});
 	}
 	
-	private void findLocatedEntity(Player player, Set<Glowing> set, Entity located) {
-		Optional<Glowing> glowingOpt = set.stream().filter(glowing -> glowing.entity.equals(located)).findAny();
+	private void foundLocatedEntity(Player player, Set<Glowing> playerSet, Entity located) {
+		Optional<Glowing> glowingOpt = playerSet.stream().filter(glowing -> glowing.entity.equals(located)).findAny();
 		if (glowingOpt.isPresent()) {
 			glowingOpt.get().found = true;
 		}else {
 			Glowing glowing = new Glowing(player, located);
-			set.add(glowing);
+			playerSet.add(glowing);
 			glowing.display();
 		}
 	}
