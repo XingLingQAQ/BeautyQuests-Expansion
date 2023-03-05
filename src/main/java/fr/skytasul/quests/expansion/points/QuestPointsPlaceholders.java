@@ -51,6 +51,11 @@ public class QuestPointsPlaceholders extends PlaceholderExpansion {
 	}
 
 	@Override
+	public boolean canRegister() {
+		return true;
+	}
+
+	@Override
 	public @NotNull List<String> getPlaceholders() {
 		return placeholders;
 	}
@@ -60,6 +65,8 @@ public class QuestPointsPlaceholders extends PlaceholderExpansion {
 		if (params.equals("player")) {
 			if (player == null || !player.isOnline()) return "§cerror: offline";
 			PlayerAccount account = PlayersManager.getPlayerAccount(player.getPlayer());
+			if (account == null)
+				return "§cerror: cannot find account of " + player.getPlayer().getName();
 			return Integer.toString(points.getPoints(account));
 		}
 

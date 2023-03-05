@@ -34,10 +34,11 @@ public class QuestPointsManager implements OrphanCommand {
 	private QuestPointsLeaderboard leaderboard;
 
 	public QuestPointsManager() {
-		PlayersManager.manager.addAccountData(pointsData);
+		BeautyQuests.getInstance().getPlayersManager().addAccountData(pointsData);
 		
-		if (PlayersManager.manager instanceof PlayersManagerDB) {
-			leaderboard = new QuestPointsLeaderboard(this, ((PlayersManagerDB) PlayersManager.manager));
+		if (BeautyQuests.getInstance().getPlayersManager() instanceof PlayersManagerDB) {
+			leaderboard =
+					new QuestPointsLeaderboard(this, ((PlayersManagerDB) BeautyQuests.getInstance().getPlayersManager()));
 		} else {
 			BeautyQuestsExpansion.logger.warning(
 					"You are not using a database to save BeautyQuests datas. Quest points leaderboard is disabled.");
@@ -76,6 +77,7 @@ public class QuestPointsManager implements OrphanCommand {
 		BeautyQuests.getInstance().dependencies
 				.addDependency(new BQDependency("PlaceholderAPI", () -> {
 					new QuestPointsPlaceholders(this).register();
+					BeautyQuestsExpansion.logger.info("Registered quest points placeholders.");
 				}));
 	}
 	

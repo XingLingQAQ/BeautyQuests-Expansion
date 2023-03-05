@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.logging.Handler;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.bukkit.plugin.java.JavaPlugin;
-
 import fr.skytasul.quests.BeautyQuests;
 import fr.skytasul.quests.BeautyQuests.LoadingException;
 import fr.skytasul.quests.api.Locale;
@@ -100,12 +98,12 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 			String revisionStr = matcher.group(3);
 			int revision = revisionStr == null ? 0 : Integer.parseInt(revisionStr);
 			
-			if (major >= 0 && minor >= 20) {
+			if (major >= 0 && minor >= 20 && revision >= 1) {
 				String buildStr = matcher.group(4);
 				if (buildStr == null) return true; // means it's the release
 				try {
 					int build = Integer.parseInt(buildStr);
-					return build >= 345;
+					return build >= 352;
 				}catch (NumberFormatException ex) {
 					// means that the build number is not actually a number
 					// will fallback to "cannot parse"
