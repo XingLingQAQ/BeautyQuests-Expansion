@@ -1,7 +1,6 @@
 package fr.skytasul.quests.expansion.points;
 
 import org.bukkit.entity.Player;
-
 import fr.skytasul.quests.api.requirements.AbstractRequirement;
 import fr.skytasul.quests.api.requirements.TargetNumberRequirement;
 import fr.skytasul.quests.expansion.BeautyQuestsExpansion;
@@ -34,6 +33,11 @@ public class QuestPointsRequirement extends TargetNumberRequirement {
 		return LangExpansion.Points_Value.format(comparison.getSymbol() + " " + (int) target);
 	}
 	
+	@Override
+	public void sendReason(Player p) {
+		LangExpansion.Points_Requirement_Message.send(p, getFormattedValue());
+	}
+
 	@Override
 	public void sendHelpString(Player p) {
 		LangExpansion.Points_Requirement_Editor_Target.send(p);
