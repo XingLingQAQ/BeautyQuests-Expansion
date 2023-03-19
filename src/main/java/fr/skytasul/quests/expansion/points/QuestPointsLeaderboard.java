@@ -68,6 +68,13 @@ public class QuestPointsLeaderboard {
 		// so it's better to wait a bit in order to get the last rank fetched.
 	}
 
+	public void unload() {
+		if (refreshTask != null) {
+			refreshTask.cancel();
+			refreshTask = null;
+		}
+	}
+
 	@Nullable
 	public LeaderboardEntry getPlayer(int rank) {
 		if (maxRankFetched < rank)

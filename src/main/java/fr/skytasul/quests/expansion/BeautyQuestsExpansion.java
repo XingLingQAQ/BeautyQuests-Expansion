@@ -162,7 +162,7 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 				LangExpansion.Points_Name.toString(),
 				LangExpansion.Points_Description.toString(),
 				() -> pointsManager = new QuestPointsManager(),
-				null));
+                () -> pointsManager.unload())); // cannot use pointsManager::unload here as the field is not yet initialized
 	}
 	
 	private void loadFeatures() {

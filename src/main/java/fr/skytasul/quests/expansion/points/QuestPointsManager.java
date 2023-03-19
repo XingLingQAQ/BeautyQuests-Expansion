@@ -89,6 +89,11 @@ public class QuestPointsManager implements OrphanCommand {
 		acc.setData(pointsData, getPoints(acc) + points);
 	}
 	
+	public void unload() {
+		if (leaderboard != null)
+			leaderboard.unload();
+	}
+
 	@Nullable
 	public QuestPointsLeaderboard getLeaderboard() {
 		return leaderboard;
