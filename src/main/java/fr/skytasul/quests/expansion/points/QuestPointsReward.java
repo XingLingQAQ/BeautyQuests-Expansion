@@ -22,7 +22,8 @@ public class QuestPointsReward extends AbstractReward {
 	
 	public QuestPointsReward() {}
 	
-	public QuestPointsReward(int min, int max) {
+	public QuestPointsReward(String customDescription, int min, int max) {
+		super(customDescription);
 		this.min = min;
 		this.max = max;
 	}
@@ -35,13 +36,13 @@ public class QuestPointsReward extends AbstractReward {
 	}
 	
 	@Override
-	public String getDescription(Player p) {
+	public String getDefaultDescription(Player p) {
 		return LangExpansion.Points_Value.format(min == max ? min : (min + " - " + max));
 	}
 	
 	@Override
 	public AbstractReward clone() {
-		return new QuestPointsReward(min, max);
+		return new QuestPointsReward(getCustomDescription(), min, max);
 	}
 	
 	@Override

@@ -5,7 +5,7 @@
 
 	<groupId>fr.skytasul</groupId>
 	<artifactId>beautyquests-expansion</artifactId>
-	<version>1.2.3</version>
+	<version>1.2.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>BeautyQuests Expansion</name>
@@ -96,7 +96,7 @@
 		<dependency>
 			<groupId>fr.skytasul</groupId>
 			<artifactId>beautyquests-core</artifactId>
-			<version>0.20.1-SNAPSHOT</version>
+			<version>0.21-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 

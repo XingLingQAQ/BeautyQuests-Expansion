@@ -98,12 +98,12 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 			String revisionStr = matcher.group(3);
 			int revision = revisionStr == null ? 0 : Integer.parseInt(revisionStr);
 			
-			if (major >= 0 && minor >= 20 && revision >= 1) {
+			if (major >= 0 && minor >= 21) {
 				String buildStr = matcher.group(4);
 				if (buildStr == null) return true; // means it's the release
 				try {
 					int build = Integer.parseInt(buildStr);
-					return build >= 352;
+					return build >= 367;
 				}catch (NumberFormatException ex) {
 					// means that the build number is not actually a number
 					// will fallback to "cannot parse"

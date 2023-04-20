@@ -11,11 +11,12 @@ import fr.skytasul.quests.utils.ComparisonMethod;
 public class QuestPointsRequirement extends TargetNumberRequirement {
 	
 	public QuestPointsRequirement() {
-		this(0, ComparisonMethod.GREATER_OR_EQUAL);
+		this(null, null, 0, ComparisonMethod.GREATER_OR_EQUAL);
 	}
 	
-	public QuestPointsRequirement(double target, ComparisonMethod comparison) {
-		super(target, comparison);
+	public QuestPointsRequirement(String customDescription, String customReason, double target,
+			ComparisonMethod comparison) {
+		super(customDescription, customReason, target, comparison);
 	}
 	
 	@Override
@@ -29,13 +30,13 @@ public class QuestPointsRequirement extends TargetNumberRequirement {
 	}
 	
 	@Override
-	public String getDescription(Player p) {
-		return LangExpansion.Points_Value.format(comparison.getSymbol() + " " + (int) target);
+	public String getDefaultDescription(Player p) {
+		return LangExpansion.Points_Value.format(getShortFormattedValue());
 	}
 	
 	@Override
-	public void sendReason(Player p) {
-		LangExpansion.Points_Requirement_Message.send(p, getFormattedValue());
+	protected String getDefaultReason(Player player) {
+		return LangExpansion.Points_Requirement_Message.format(getFormattedValue());
 	}
 
 	@Override
@@ -45,7 +46,7 @@ public class QuestPointsRequirement extends TargetNumberRequirement {
 	
 	@Override
 	public AbstractRequirement clone() {
-		return new QuestPointsRequirement(target, comparison);
+		return new QuestPointsRequirement(getCustomDescription(), getCustomReason(), target, comparison);
 	}
 	
 }

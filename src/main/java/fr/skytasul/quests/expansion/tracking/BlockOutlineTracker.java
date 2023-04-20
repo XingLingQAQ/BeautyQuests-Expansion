@@ -6,7 +6,7 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import fr.skytasul.quests.api.objects.QuestObjectClickEvent;
-import fr.skytasul.quests.api.options.QuestOption;
+import fr.skytasul.quests.api.objects.QuestObjectLoreBuilder;
 import fr.skytasul.quests.api.stages.types.Locatable;
 import fr.skytasul.quests.api.stages.types.Locatable.Located;
 import fr.skytasul.quests.api.stages.types.Locatable.MultipleLocatable.NearbyFetcher;
@@ -80,10 +80,11 @@ public class BlockOutlineTracker extends AbstractTaskFetcherTracker {
 	}
 	
 	@Override
-	public String[] getLore() {
-		return new String[] { QuestOption.formatDescription(particles.toString()), "", Lang.RemoveMid.toString() };
+	protected void addLore(QuestObjectLoreBuilder loreBuilder) {
+		super.addLore(loreBuilder);
+		loreBuilder.addDescriptionAsValue(particles);
 	}
-	
+
 	@Override
 	public void save(ConfigurationSection section) {
 		if (particles != DEFAULT_EFFECT) {

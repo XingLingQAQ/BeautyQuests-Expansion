@@ -7,14 +7,13 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import fr.skytasul.quests.api.objects.QuestObjectClickEvent;
-import fr.skytasul.quests.api.options.QuestOption;
+import fr.skytasul.quests.api.objects.QuestObjectLoreBuilder;
 import fr.skytasul.quests.api.stages.types.Locatable;
 import fr.skytasul.quests.api.stages.types.Locatable.Located;
 import fr.skytasul.quests.api.stages.types.Locatable.MultipleLocatable.NearbyFetcher;
 import fr.skytasul.quests.expansion.api.tracking.Tracker;
 import fr.skytasul.quests.expansion.utils.ShapesAnalysis;
 import fr.skytasul.quests.gui.particles.ParticleEffectGUI;
-import fr.skytasul.quests.utils.Lang;
 import fr.skytasul.quests.utils.ParticleEffect;
 import fr.skytasul.quests.utils.ParticleEffect.ParticleShape;
 import fr.skytasul.quests.utils.nms.NMS;
@@ -52,8 +51,9 @@ public class ParticleTracker extends AbstractTaskFetcherTracker {
 	}
 	
 	@Override
-	public String[] getLore() {
-		return new String[] { QuestOption.formatDescription(particles.toString()), "", Lang.RemoveMid.toString() };
+	protected void addLore(QuestObjectLoreBuilder loreBuilder) {
+		super.addLore(loreBuilder);
+		loreBuilder.addDescriptionAsValue(particles);
 	}
 	
 	@Override
