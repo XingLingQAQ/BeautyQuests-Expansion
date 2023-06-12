@@ -1,2 +1,13 @@
 # Language of the plugin. Will determine which file (located in the /locales directory) will be used.
 lang: en_US
+
+# Configuration for quest points
+points:
+  # Describes the behavior of operations of removing quest points from a player which would lead to a
+  # negative quest points balance.
+  # Allowed options are:
+  # - ALLOW: negative quest points balance is allowed
+  # - FLOOR: trying to remove more quest points that what a player already has will simply result on the
+  #   player's balance being set to 0
+  # - FAIL: any operation of removing more quest points that what a player has will fail
+  negative behavior: ALLOW

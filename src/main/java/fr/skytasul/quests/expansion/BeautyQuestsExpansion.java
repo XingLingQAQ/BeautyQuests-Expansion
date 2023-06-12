@@ -36,6 +36,7 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 	
 	private List<ExpansionFeature> features = new ArrayList<>();
 	
+	private ExpansionConfiguration config;
 	private TrackerRegistry trackersRegistry;
 	private QuestPointsManager pointsManager;
 	
@@ -118,6 +119,7 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 		try {
 			saveDefaultConfig();
 			ConfigUpdater.update(this, "config.yml", new File(getDataFolder(), "config.yml"));
+			config = new ExpansionConfiguration(getConfig());
 		}catch (IOException ex) {
 			logger.severe("An exception occurred while loading config file.", ex);
 		}
@@ -125,7 +127,7 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 	
 	private void loadLang() throws LoadingException {
 		try {
-			Locale.loadLang(this, LangExpansion.values(), getConfig().getString("lang"));
+			Locale.loadLang(this, LangExpansion.values(), config.getLang());
 		}catch (Exception ex) {
 			throw new LoadingException("Couldn't load language file.", ex);
 		}
@@ -161,7 +163,7 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 		features.add(new ExpansionFeature(
 				LangExpansion.Points_Name.toString(),
 				LangExpansion.Points_Description.toString(),
-				() -> pointsManager = new QuestPointsManager(),
+				() -> pointsManager = new QuestPointsManager(config.getPointsConfig()),
                 () -> pointsManager.unload())); // cannot use pointsManager::unload here as the field is not yet initialized
 	}
 	

@@ -59,8 +59,11 @@ public class QuestPointsRankup implements Listener {
 
 		@Override
 		public void apply(Player player, double multiplier) {
-			manager.addPoints(PlayersManager.getPlayerAccount(player),
-					-getValueInt() * (int) multiplier);
+			try {
+				manager.addPoints(PlayersManager.getPlayerAccount(player), -getValueInt() * (int) multiplier);
+			} catch (IllegalPointsBalanceException ex) {
+				throw new IllegalArgumentException(ex);
+			}
 		}
 
 		@Override

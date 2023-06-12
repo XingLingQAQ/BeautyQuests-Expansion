@@ -30,9 +30,13 @@ public class QuestPointsReward extends AbstractReward {
 	
 	@Override
 	public List<String> give(Player p) {
-		int points = min == max ? min : ThreadLocalRandom.current().nextInt(min, max + 1);
-		BeautyQuestsExpansion.getInstance().getPointsManager().addPoints(PlayersManager.getPlayerAccount(p), points);
-		return Arrays.asList(LangExpansion.Points_Value.format(points));
+		try {
+			int points = min == max ? min : ThreadLocalRandom.current().nextInt(min, max + 1);
+			BeautyQuestsExpansion.getInstance().getPointsManager().addPoints(PlayersManager.getPlayerAccount(p), points);
+			return Arrays.asList(LangExpansion.Points_Value.format(points));
+		} catch (IllegalPointsBalanceException ex) {
+			throw new IllegalArgumentException(ex);
+		}
 	}
 	
 	@Override

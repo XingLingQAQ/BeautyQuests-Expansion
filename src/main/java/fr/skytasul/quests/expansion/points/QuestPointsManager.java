@@ -3,6 +3,7 @@ package fr.skytasul.quests.expansion.points;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import fr.skytasul.quests.BeautyQuests;
 import fr.skytasul.quests.api.QuestsAPI;
@@ -18,6 +19,7 @@ import fr.skytasul.quests.commands.revxrsal.bukkit.annotation.CommandPermission;
 import fr.skytasul.quests.commands.revxrsal.command.ExecutableCommand;
 import fr.skytasul.quests.commands.revxrsal.orphan.OrphanCommand;
 import fr.skytasul.quests.expansion.BeautyQuestsExpansion;
+import fr.skytasul.quests.expansion.ExpansionConfiguration.QuestPointsConfiguration;
 import fr.skytasul.quests.expansion.utils.LangExpansion;
 import fr.skytasul.quests.gui.ItemUtils;
 import fr.skytasul.quests.players.PlayerAccount;
@@ -33,7 +35,12 @@ public class QuestPointsManager implements OrphanCommand {
 	@Nullable
 	private QuestPointsLeaderboard leaderboard;
 
-	public QuestPointsManager() {
+	@NotNull
+	private QuestPointsConfiguration config;
+
+	public QuestPointsManager(@NotNull QuestPointsConfiguration config) {
+		this.config = config;
+
 		BeautyQuests.getInstance().getPlayersManager().addAccountData(pointsData);
 		
 		if (BeautyQuests.getInstance().getPlayersManager() instanceof PlayersManagerDB) {
@@ -85,8 +92,22 @@ public class QuestPointsManager implements OrphanCommand {
 		return acc.getData(pointsData);
 	}
 	
-	public void addPoints(PlayerAccount acc, int points) {
-		acc.setData(pointsData, getPoints(acc) + points);
+	public void addPoints(PlayerAccount acc, int points) throws IllegalPointsBalanceException {
+		int newBalance = getPoints(acc) + points;
+		if (newBalance < 0) {
+			switch (config.getNegativeBehavior()) {
+				case ALLOW:
+					// nothing to do here
+					break;
+				case FAIL:
+					throw new IllegalPointsBalanceException(acc, newBalance);
+				case FLOOR:
+					newBalance = 0;
+					break;
+			}
+		}
+
+		acc.setData(pointsData, newBalance);
 	}
 	
 	public void unload() {
@@ -116,7 +137,7 @@ public class QuestPointsManager implements OrphanCommand {
 	
 	@Subcommand ("add")
 	@CommandPermission (value = "beautyquests.expansion.command.points.add", defaultAccess = PermissionDefault.OP)
-	public void pointsAdd(BukkitCommandActor actor, Player player, int points) {
+	public void pointsAdd(BukkitCommandActor actor, Player player, int points) throws IllegalPointsBalanceException {
 		addPoints(PlayersManager.getPlayerAccount(player), points);
 		LangExpansion.Points_Command_Added.send(actor.getSender(), points, player.getName());
 	}
