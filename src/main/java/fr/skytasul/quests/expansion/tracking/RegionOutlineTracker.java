@@ -30,10 +30,10 @@ import fr.skytasul.quests.utils.ParticleEffect;
 public class RegionOutlineTracker extends AbstractTaskShownTracker {
 	
 	private static final int POINTS_CACHE_TIME = 60 * 1000;
-
+	private static final double DEFAULT_VIEW_DISTANCE = 35;
 	private static final ParticleEffect DEFAULT_EFFECT = new ParticleEffect(Particle.FLAME, null, null);
 	
-	private double maxDistance = 20;
+	private double viewDistance = DEFAULT_VIEW_DISTANCE;
 	private double resolution = 0.25;
 	
 	private ParticleEffect particles = DEFAULT_EFFECT;
@@ -59,7 +59,8 @@ public class RegionOutlineTracker extends AbstractTaskShownTracker {
 		
 		List<Player> visible = shown
 			.stream()
-			.filter(player -> player.getWorld() == regionStage.getWorld() && player.getLocation().distanceSquared(regionCenter) <= maxDistance * maxDistance)
+				.filter(player -> player.getWorld() == regionStage.getWorld() && player
+						.getLocation().distanceSquared(regionCenter) <= viewDistance * viewDistance)
 			.collect(Collectors.toList());
 		if (!visible.isEmpty()) computePoints(regionStage.getWorld(), region).forEach(point -> particles.sendParticle(point, visible, 0, 0, 0, 1));
 	}
@@ -153,6 +154,9 @@ public class RegionOutlineTracker extends AbstractTaskShownTracker {
 			section.set("particleEffect", particles.getParticle().name());
 			if (particles.getColor() != null) section.set("particleColor", particles.getColor().serialize());
 		}
+
+		if (viewDistance != DEFAULT_VIEW_DISTANCE)
+			section.set("viewDistance", viewDistance);
 	}
 	
 	@Override
@@ -162,6 +166,8 @@ public class RegionOutlineTracker extends AbstractTaskShownTracker {
 			Color color = section.contains("particleColor") ? Color.deserialize(section.getConfigurationSection("particleColor").getValues(false)) : null;
 			particles = new ParticleEffect(particle, null, color);
 		}
+		if (section.contains("viewDistance"))
+			viewDistance = section.getDouble("viewDistance");
 	}
 	
 }
