@@ -8,15 +8,23 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import fr.skytasul.glowingentities.GlowingBlocks;
 import fr.skytasul.glowingentities.GlowingEntities;
+import fr.skytasul.quests.BeautyQuests;
 import fr.skytasul.quests.api.objects.QuestObjectClickEvent;
 import fr.skytasul.quests.api.objects.QuestObjectLoreBuilder;
+import fr.skytasul.quests.api.stages.AbstractStage;
+import fr.skytasul.quests.api.stages.StageType;
 import fr.skytasul.quests.api.stages.types.Locatable;
 import fr.skytasul.quests.api.stages.types.Locatable.Located;
+import fr.skytasul.quests.api.stages.types.Locatable.Located.LocatedBlock;
 import fr.skytasul.quests.api.stages.types.Locatable.Located.LocatedEntity;
 import fr.skytasul.quests.api.stages.types.Locatable.LocatedType;
 import fr.skytasul.quests.api.stages.types.Locatable.MultipleLocatable;
@@ -33,7 +41,8 @@ public class GlowingTracker extends AbstractTaskTracker {
 	private static final ChatColor DEFAULT_COLOR = ChatColor.GREEN;
 	private static final long UPDATE_RATE = 50L;
 
-	private static GlowingEntities GLOWING_API;
+	private static GlowingEntities ENTITIES_API;
+	private static GlowingBlocks BLOCKS_API;
 	
 	private ChatColor color;
 	private double maxDistance = 40;
@@ -47,7 +56,7 @@ public class GlowingTracker extends AbstractTaskTracker {
 
 	public GlowingTracker(ChatColor color) {
 		super(UPDATE_RATE);
-		if (GLOWING_API == null) GLOWING_API = new GlowingEntities(BeautyQuestsExpansion.getInstance());
+		initializeUtils();
 		
 		this.color = color;
 	}
@@ -84,6 +93,13 @@ public class GlowingTracker extends AbstractTaskTracker {
 						foundLocatedEntity(player, set, entity);
 					});
 				}
+			} else if (located instanceof LocatedBlock && isBlocksEnabled()) {
+				Location block = ((LocatedBlock) located).getLocation();
+				if (block != null) {
+					shown.forEach((player, set) -> {
+						foundLocatedBlock(player, set, block);
+					});
+				}
 			}
 		}
 		
@@ -91,9 +107,21 @@ public class GlowingTracker extends AbstractTaskTracker {
 			MultipleLocatable multiple = (MultipleLocatable) locatable;
 			shown.forEach((player, set) -> {
 				Spliterator<Located> locateds = multiple.getNearbyLocated(NearbyFetcher.create(player.getLocation(), maxDistance, LocatedType.ENTITY));
-				for (int i = 0; i < maxAmount; i++) {
+				int i;
+				for (i = 0; i < maxAmount; i++) {
 					if (!locateds
 							.tryAdvance(located -> foundLocatedEntity(player, set, ((LocatedEntity) located).getEntity())))
+						break;
+				}
+
+				if (!isBlocksEnabled())
+					return;
+
+				locateds = multiple
+						.getNearbyLocated(NearbyFetcher.create(player.getLocation(), maxDistance, LocatedType.BLOCK));
+				for (; i < maxAmount; i++) {
+					if (!locateds
+							.tryAdvance(located -> foundLocatedBlock(player, set, ((LocatedBlock) located).getLocation())))
 						break;
 				}
 			});
@@ -111,11 +139,25 @@ public class GlowingTracker extends AbstractTaskTracker {
 	}
 	
 	private void foundLocatedEntity(Player player, Set<Glowing> playerSet, Entity located) {
-		Optional<Glowing> glowingOpt = playerSet.stream().filter(glowing -> glowing.entity.equals(located)).findAny();
+		foundLocated(player, playerSet, GlowingEntity.class, glowing -> glowing.entity.equals(located),
+				() -> new GlowingEntity(player, located));
+	}
+
+	private void foundLocatedBlock(Player player, Set<Glowing> playerSet, Location located) {
+		foundLocated(player, playerSet, GlowingBlock.class, glowing -> glowing.block.equals(located),
+				() -> new GlowingBlock(player, located));
+	}
+
+	private <T extends Glowing> void foundLocated(Player player, Set<Glowing> playerSet, Class<T> glowingType,
+			Predicate<T> filter, Supplier<T> supplier) {
+		Optional<T> glowingOpt = playerSet.stream()
+				.filter(glowingType::isInstance)
+				.map(glowingType::cast)
+				.filter(filter).findAny();
 		if (glowingOpt.isPresent()) {
 			glowingOpt.get().found = true;
 		}else {
-			Glowing glowing = new Glowing(player, located);
+			Glowing glowing = supplier.get();
 			playerSet.add(glowing);
 			glowing.display();
 		}
@@ -163,32 +205,46 @@ public class GlowingTracker extends AbstractTaskTracker {
 		if (section.contains("color")) color = ChatColor.valueOf(section.getString("color"));
 	}
 	
-	class Glowing {
-		private final Player player;
-		private final Entity entity;
-		private boolean found = true;
+	abstract class Glowing {
+		protected final Player player;
+		protected boolean found = true;
 		
-		public Glowing(Player player, Entity entity) {
+		protected Glowing(Player player) {
 			this.player = player;
+		}
+		
+		public abstract void display();
+
+		public abstract void remove();
+
+	}
+
+	class GlowingEntity extends Glowing {
+		private final Entity entity;
+
+		public GlowingEntity(Player player, Entity entity) {
+			super(player);
 			this.entity = entity;
 		}
-		
+
+		@Override
 		public void display() {
 			try {
-				GLOWING_API.setGlowing(entity, player, color);
+				ENTITIES_API.setGlowing(entity, player, color);
 			}catch (ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
 		}
 		
+		@Override
 		public void remove() {
 			try {
-				GLOWING_API.unsetGlowing(entity, player);
+				ENTITIES_API.unsetGlowing(entity, player);
 			}catch (ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		@Override
 		public int hashCode() {
 			return entity.hashCode();
@@ -196,12 +252,71 @@ public class GlowingTracker extends AbstractTaskTracker {
 		
 		@Override
 		public boolean equals(Object obj) {
-			if (obj instanceof Glowing) {
-				return ((Glowing) obj).entity.equals(entity);
+			if (obj instanceof GlowingEntity) {
+				return ((GlowingEntity) obj).entity.equals(entity);
 			}
 			return false;
 		}
-		
+
 	}
-	
+
+	class GlowingBlock extends Glowing {
+		private final Location block;
+
+		public GlowingBlock(Player player, Location block) {
+			super(player);
+			this.block = block;
+		}
+
+		@Override
+		public void display() {
+			try {
+				BLOCKS_API.setGlowing(block, player, color);
+			} catch (ReflectiveOperationException e) {
+				e.printStackTrace();
+			}
+		}
+
+		@Override
+		public void remove() {
+			try {
+				BLOCKS_API.unsetGlowing(block, player);
+			} catch (ReflectiveOperationException e) {
+				e.printStackTrace();
+			}
+		}
+
+		@Override
+		public int hashCode() {
+			return block.hashCode();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj instanceof GlowingBlock) {
+				return ((GlowingBlock) obj).block.equals(block);
+			}
+			return false;
+		}
+
+	}
+
+	private static boolean isBlocksEnabled() {
+		return BeautyQuests.getInstance().isRunningPaper();
+	}
+
+	private static synchronized void initializeUtils() {
+		if (ENTITIES_API == null)
+			ENTITIES_API = new GlowingEntities(BeautyQuestsExpansion.getInstance());
+		if (BLOCKS_API == null && isBlocksEnabled())
+			BLOCKS_API = new GlowingBlocks(BeautyQuestsExpansion.getInstance());
+	}
+
+	public static <T extends AbstractStage & Locatable> boolean isStageEnabled(StageType<T> type) {
+		if (Locatable.hasLocatedTypes(type.getStageClass(), LocatedType.ENTITY))
+			return true;
+
+		return isBlocksEnabled() && Locatable.hasLocatedTypes(type.getStageClass(), LocatedType.BLOCK);
+	}
+
 }

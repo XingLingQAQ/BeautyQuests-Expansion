@@ -34,7 +34,10 @@ public class TrackerRegistry extends QuestObjectsRegistry<Tracker, TrackerCreato
 		if (NMS.getMCVersion() >= 17)
 			register(new TrackerCreator("block-outline", BlockOutlineTracker.class, ItemUtils.item(XMaterial.ACACIA_STAIRS, LangExpansion.Tracking_Outline_Block_Name.toString(), QuestOption.formatDescription(LangExpansion.Tracking_Outline_Block_Description.toString())), BlockOutlineTracker::new, type -> Locatable.hasLocatedTypes(type.getStageClass(), LocatedType.BLOCK)));
 		if (NMS.getMCVersion() >= 17)
-			register(new TrackerCreator("glowing", GlowingTracker.class, ItemUtils.item(XMaterial.SPECTRAL_ARROW, LangExpansion.Tracking_Glowing_Name.toString(), QuestOption.formatDescription(LangExpansion.Tracking_Glowing_Description.toString())), GlowingTracker::new, type -> Locatable.hasLocatedTypes(type.getStageClass(), LocatedType.ENTITY)));
+			register(new TrackerCreator("glowing", GlowingTracker.class,
+					ItemUtils.item(XMaterial.SPECTRAL_ARROW, LangExpansion.Tracking_Glowing_Name.toString(),
+							QuestOption.formatDescription(LangExpansion.Tracking_Glowing_Description.toString())),
+					GlowingTracker::new, GlowingTracker::isStageEnabled));
 		if (NMS.getMCVersion() >= 13)
 			register(new TrackerCreator("beacon-beam", BeaconTracker.class, ItemUtils.item(XMaterial.BEACON, LangExpansion.Tracking_Beacon_Name.toString(), QuestOption.formatDescription(LangExpansion.Tracking_Beacon_Description.toString())), BeaconTracker::new, type -> Locatable.PreciseLocatable.class.isAssignableFrom(type.getStageClass())));
 		
