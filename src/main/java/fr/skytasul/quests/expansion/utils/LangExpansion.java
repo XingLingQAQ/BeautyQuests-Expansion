@@ -3,6 +3,7 @@ package fr.skytasul.quests.expansion.utils;
 import fr.skytasul.quests.api.Locale;
 import fr.skytasul.quests.utils.Lang;
 
+@SuppressWarnings("squid:S115")
 public enum LangExpansion implements Locale {
 	
 	Expansion_Label("expansion.label"),
@@ -42,6 +43,8 @@ public enum LangExpansion implements Locale {
 	Tracking_Beacon_Description("tracking.beacon.description"),
 	Tracking_Glowing_Name("tracking.glowing.name"),
 	Tracking_Glowing_Description("tracking.glowing.description"),
+	Tracking_Gps_Name("tracking.gps.name"),
+	Tracking_Gps_Description("tracking.gps.description"),	
 	
 	Points_Name("points.name"),
 	Points_Description("points.description"),

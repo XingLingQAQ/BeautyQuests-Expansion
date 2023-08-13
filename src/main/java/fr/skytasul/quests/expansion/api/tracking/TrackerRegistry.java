@@ -1,5 +1,6 @@
 package fr.skytasul.quests.expansion.api.tracking;
 
+import fr.skytasul.quests.BeautyQuests;
 import fr.skytasul.quests.api.QuestsAPI;
 import fr.skytasul.quests.api.objects.QuestObjectsRegistry;
 import fr.skytasul.quests.api.options.QuestOption;
@@ -11,12 +12,14 @@ import fr.skytasul.quests.expansion.options.TrackingOption;
 import fr.skytasul.quests.expansion.tracking.BeaconTracker;
 import fr.skytasul.quests.expansion.tracking.BlockOutlineTracker;
 import fr.skytasul.quests.expansion.tracking.GlowingTracker;
+import fr.skytasul.quests.expansion.tracking.GpsTracker;
 import fr.skytasul.quests.expansion.tracking.ParticleTracker;
 import fr.skytasul.quests.expansion.tracking.RegionOutlineTracker;
 import fr.skytasul.quests.expansion.utils.LangExpansion;
 import fr.skytasul.quests.gui.ItemUtils;
 import fr.skytasul.quests.stages.StageArea;
 import fr.skytasul.quests.utils.XMaterial;
+import fr.skytasul.quests.utils.compatibility.DependenciesManager.BQDependency;
 import fr.skytasul.quests.utils.nms.NMS;
 
 public class TrackerRegistry extends QuestObjectsRegistry<Tracker, TrackerCreator> {
@@ -39,9 +42,19 @@ public class TrackerRegistry extends QuestObjectsRegistry<Tracker, TrackerCreato
 							QuestOption.formatDescription(LangExpansion.Tracking_Glowing_Description.toString())),
 					GlowingTracker::new, GlowingTracker::isStageEnabled));
 		if (NMS.getMCVersion() >= 13)
-			register(new TrackerCreator("beacon-beam", BeaconTracker.class, ItemUtils.item(XMaterial.BEACON, LangExpansion.Tracking_Beacon_Name.toString(), QuestOption.formatDescription(LangExpansion.Tracking_Beacon_Description.toString())), BeaconTracker::new, type -> Locatable.PreciseLocatable.class.isAssignableFrom(type.getStageClass())));
+			register(new TrackerCreator("beacon-beam", BeaconTracker.class,
+					ItemUtils.item(XMaterial.BEACON, LangExpansion.Tracking_Beacon_Name.toString(),
+							QuestOption.formatDescription(LangExpansion.Tracking_Beacon_Description.toString())),
+					BeaconTracker::new, this::isPreciseLocatable));
 		
 		register(new TrackerCreator("region-outline", RegionOutlineTracker.class, ItemUtils.item(XMaterial.IRON_AXE, LangExpansion.Tracking_Outline_Region_Name.toString(), QuestOption.formatDescription(LangExpansion.Tracking_Outline_Region_Description.toString())), RegionOutlineTracker::new, type -> type.getStageClass() == StageArea.class));
+
+		BeautyQuests.getInstance().dependencies.addDependency(new BQDependency("GPS", () -> {
+			register(new TrackerCreator("gps", GpsTracker.class,
+					ItemUtils.item(XMaterial.COMPASS, LangExpansion.Tracking_Gps_Name.toString(),
+							QuestOption.formatDescription(LangExpansion.Tracking_Gps_Description.toString())),
+					GpsTracker::new, this::isPreciseLocatable));
+		}));
 	}
 
 	private void registerOption() {
@@ -52,4 +65,8 @@ public class TrackerRegistry extends QuestObjectsRegistry<Tracker, TrackerCreato
 			.forEach(type -> type.getOptionsRegistry().register(new SerializableCreator<>("expansion-tracking", TrackingOption.class, () -> new TrackingOption(type.getStageClass()))));
 	}
 	
+	private boolean isPreciseLocatable(StageType<?> stageType) {
+		return Locatable.PreciseLocatable.class.isAssignableFrom(stageType.getStageClass());
+	}
+
 }

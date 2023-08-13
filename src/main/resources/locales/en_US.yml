@@ -55,6 +55,9 @@ tracking:
   glowing:
     name: §dGlowing
     description: Makes the targeted blocks or entities glow.
+  gps:
+    name: §dGps
+    description: Shows an arrow towards the target location.
 points:
   name: Quest points
   description: >-

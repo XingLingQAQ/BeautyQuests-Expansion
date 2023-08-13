@@ -140,6 +140,14 @@
 			<version>2.11.2</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- Local JARs -->
+		<dependency>
+			<groupId>com.live.bemmamin</groupId>
+			<artifactId>gps</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 </project>
