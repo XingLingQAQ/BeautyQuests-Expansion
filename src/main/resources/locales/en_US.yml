@@ -1,14 +1,14 @@
 expansion:
   label: '§d§l§oExpansion feature!'
 features:
-  header: '§fExpansion features ({0}):'
+  header: '§fExpansion features ({features_amount}):'
   unloaded: '(not loaded)'
 timelimit:
   name: Time limit
   description: >-
     Time limit for the quest. Players will only be able to complete
     the quest within the setup duration after they start the quest.
-  left: '§8> Time left: §7{0}'
+  left: '§8> Time left: §7{time_left}'
   editor: Write the maximum duration a player can take to complete this quest.
 stage:
   statistic:
@@ -16,7 +16,7 @@ stage:
     description: >-
       Requires the player to match a specific statistic value, such as
       "distance walked" or "chests opened".
-    advancement: 'Reach {1} of statistic {0}'
+    advancement: 'Reach {remaining_value} of statistic {statistic_type_name}'
     gui:
       stat: '§dTarget statistic'
       limit: '§cTarget limit'
@@ -36,8 +36,8 @@ tracking:
   name: Objective trackers
   description: >-
     Various helpful configurable objects which makes objective finding
-    easier. {0} available trackers.
-  trackers: '{0} trackers'
+    easier. {trackers_amount} available trackers.
+  trackers: '{trackers_amount} trackers'
   gui:
     name: §aTarget trackers
   particles:
@@ -63,18 +63,20 @@ points:
   description: >-
     Every player has its own amount of points, which can be given as rewards
     and tested for requirements on quests.
-  value: '{0} quest points'
+  amount: '{quest_points_amount} quest points'
   reward:
     description: Gives a set amount of quest points to the player
+    tooltip: '{quest_points_range} quest points'
     editor:
       min: 'Enter the minimum amount of points the player will obtain:'
       max: 'Enter the maximum amount of points the player will obtain:'
   requirement:
     description: Requires the player to have a set amount of quest points
-    message: Your amount of quest points must be {0}!
+    message: Your amount of quest points must be {long_quest_points}!
+    tooltip: '{short_quest_points} quest points'
     editor:
       target: 'Enter the target amount of quest points:'
   command:
-    balance: §aYou have §l{0}§a quest points!
-    balancePlayer: '§a{1}''s balance: {0} quest points.'
-    added: 'Added {0} quests points to {1}''s balance.'
+    balance: §aYou have §l{quest_points_balance}§a quest points!
+    balancePlayer: '§a{target_name}''s balance: {quest_points_balance} quest points.'
+    added: 'Added {quest_points_balance} quests points to {target_name}''s balance.'

@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import fr.skytasul.quests.expansion.BeautyQuestsExpansion;
-import fr.skytasul.quests.players.PlayersManager;
+import fr.skytasul.quests.players.AbstractPlayersManager;
 import fr.skytasul.quests.players.PlayersManagerDB;
 
 public class QuestPointsLeaderboard {
@@ -31,16 +31,16 @@ public class QuestPointsLeaderboard {
 
 	private BukkitTask refreshTask;
 	private Map<Integer, LeaderboardEntry> cachedEntries;
-	
+
 	private int maxRankFetched;
 
 	private final String fetchFirstStatement;
 	private final String fetchRankStatement;
-	
+
 	public QuestPointsLeaderboard(QuestPointsManager pointsManager, PlayersManagerDB dbManager) {
 		this.pointsManager = pointsManager;
 		this.dbManager = dbManager;
-		
+
 		fetchFirstStatement = "SELECT `player_uuid`, `" + pointsManager.pointsData.getColumnName() + "`"
 				+ " FROM " + dbManager.ACCOUNTS_TABLE
 				+ " WHERE " + pointsManager.pointsData.getColumnName() + " > 0"
@@ -82,7 +82,7 @@ public class QuestPointsLeaderboard {
 
 		if (refreshTask == null)
 			launchRefreshTask();
-		
+
 		if (cachedEntries == null)
 			return LOADING_ENTRY;
 
@@ -147,7 +147,7 @@ public class QuestPointsLeaderboard {
 
 		private void fetchName() {
 			name = "loading...";
-			name = PlayersManager.getPlayerName(uuid);
+			name = AbstractPlayersManager.getPlayerName(uuid);
 		}
 
 		@NotNull

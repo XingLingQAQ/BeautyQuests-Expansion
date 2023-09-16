@@ -15,6 +15,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<beautyquests.version>1.0-SNAPSHOT</beautyquests.version>
 	</properties>
 
 	<developers>
@@ -95,8 +96,20 @@
 	<dependencies>
 		<dependency>
 			<groupId>fr.skytasul</groupId>
+			<artifactId>beautyquests-api</artifactId>
+			<version>${beautyquests.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>fr.skytasul</groupId>
 			<artifactId>beautyquests-core</artifactId>
-			<version>0.21-SNAPSHOT</version>
+			<version>${beautyquests.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>fr.skytasul</groupId>
+			<artifactId>beautyquests-integrations</artifactId>
+			<version>${beautyquests.version}</version>
 			<scope>provided</scope>
 		</dependency>
 

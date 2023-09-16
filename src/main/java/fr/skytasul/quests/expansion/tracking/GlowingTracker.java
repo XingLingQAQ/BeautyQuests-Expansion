@@ -1,12 +1,6 @@
 package fr.skytasul.quests.expansion.tracking;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -18,8 +12,11 @@ import org.bukkit.entity.Player;
 import fr.skytasul.glowingentities.GlowingBlocks;
 import fr.skytasul.glowingentities.GlowingEntities;
 import fr.skytasul.quests.BeautyQuests;
+import fr.skytasul.quests.api.editors.TextEditor;
+import fr.skytasul.quests.api.editors.parsers.EnumParser;
+import fr.skytasul.quests.api.gui.LoreBuilder;
+import fr.skytasul.quests.api.localization.Lang;
 import fr.skytasul.quests.api.objects.QuestObjectClickEvent;
-import fr.skytasul.quests.api.objects.QuestObjectLoreBuilder;
 import fr.skytasul.quests.api.stages.AbstractStage;
 import fr.skytasul.quests.api.stages.StageType;
 import fr.skytasul.quests.api.stages.types.Locatable;
@@ -30,26 +27,23 @@ import fr.skytasul.quests.api.stages.types.Locatable.LocatedType;
 import fr.skytasul.quests.api.stages.types.Locatable.MultipleLocatable;
 import fr.skytasul.quests.api.stages.types.Locatable.MultipleLocatable.NearbyFetcher;
 import fr.skytasul.quests.api.stages.types.Locatable.PreciseLocatable;
-import fr.skytasul.quests.editors.TextEditor;
-import fr.skytasul.quests.editors.checkers.EnumParser;
 import fr.skytasul.quests.expansion.BeautyQuestsExpansion;
 import fr.skytasul.quests.expansion.api.tracking.Tracker;
-import fr.skytasul.quests.utils.Lang;
 
 public class GlowingTracker extends AbstractTaskTracker {
-	
+
 	private static final ChatColor DEFAULT_COLOR = ChatColor.GREEN;
 	private static final long UPDATE_RATE = 50L;
 
 	private static GlowingEntities ENTITIES_API;
 	private static GlowingBlocks BLOCKS_API;
-	
+
 	private ChatColor color;
 	private double maxDistance = 40;
 	private int maxAmount = 10;
-	
+
 	private Map<Player, Set<Glowing>> shown;
-	
+
 	public GlowingTracker() {
 		this(DEFAULT_COLOR);
 	}
@@ -57,10 +51,10 @@ public class GlowingTracker extends AbstractTaskTracker {
 	public GlowingTracker(ChatColor color) {
 		super(UPDATE_RATE);
 		initializeUtils();
-		
+
 		this.color = color;
 	}
-	
+
 	@Override
 	public void start(Locatable locatable) {
 		super.start(locatable);
@@ -70,22 +64,22 @@ public class GlowingTracker extends AbstractTaskTracker {
 			shown = new HashMap<>();
 		}
 	}
-	
+
 	@Override
 	public void stop() {
 		super.stop();
 		if (shown != null && !shown.isEmpty()) shown.forEach((__, set) -> set.forEach(Glowing::remove));
 	}
-	
+
 	@Override
 	public synchronized void run() {
 		shown.values().forEach(set -> set.forEach(glowing -> glowing.found = false));
-		
+
 		if (locatable instanceof PreciseLocatable) {
 			PreciseLocatable precise = (PreciseLocatable) locatable;
 			Located located = precise.getLocated();
 			if (!isRunning()) return;
-			
+
 			if (located instanceof LocatedEntity) {
 				Entity entity = ((LocatedEntity) located).getEntity();
 				if (entity != null) {
@@ -102,7 +96,7 @@ public class GlowingTracker extends AbstractTaskTracker {
 				}
 			}
 		}
-		
+
 		if (locatable instanceof MultipleLocatable) {
 			MultipleLocatable multiple = (MultipleLocatable) locatable;
 			shown.forEach((player, set) -> {
@@ -126,7 +120,7 @@ public class GlowingTracker extends AbstractTaskTracker {
 				}
 			});
 		}
-		
+
 		shown.values().forEach(set -> {
 			for (Iterator<Glowing> iterator = set.iterator(); iterator.hasNext();) {
 				Glowing glowing = iterator.next();
@@ -137,7 +131,7 @@ public class GlowingTracker extends AbstractTaskTracker {
 			}
 		});
 	}
-	
+
 	private void foundLocatedEntity(Player player, Set<Glowing> playerSet, Entity located) {
 		foundLocated(player, playerSet, GlowingEntity.class, glowing -> glowing.entity.equals(located),
 				() -> new GlowingEntity(player, located));
@@ -162,29 +156,29 @@ public class GlowingTracker extends AbstractTaskTracker {
 			glowing.display();
 		}
 	}
-	
+
 	@Override
 	public Tracker clone() {
 		return new GlowingTracker(color);
 	}
-	
+
 	@Override
 	public void show(Player player) {
 		shown.put(player, new HashSet<>());
 	}
-	
+
 	@Override
 	public void hide(Player player) {
 		Set<Glowing> glowing = shown.remove(player);
 		if (glowing != null && !glowing.isEmpty()) glowing.forEach(Glowing::remove);
 	}
-	
+
 	@Override
-	protected void addLore(QuestObjectLoreBuilder loreBuilder) {
+	protected void addLore(LoreBuilder loreBuilder) {
 		super.addLore(loreBuilder);
 		loreBuilder.addDescriptionAsValue(color.name().toLowerCase().replace('_', ' '));
 	}
-	
+
 	@Override
 	public void itemClick(QuestObjectClickEvent event) {
 		if (event.isInCreation()) return;
@@ -192,27 +186,27 @@ public class GlowingTracker extends AbstractTaskTracker {
 		new TextEditor<>(event.getPlayer(), event::reopenGUI, newColor -> {
 			this.color = newColor;
 			event.reopenGUI();
-		}, new EnumParser<>(ChatColor.class, ChatColor::isColor)).enter();
+		}, new EnumParser<>(ChatColor.class, ChatColor::isColor)).start();
 	}
-	
+
 	@Override
 	public void save(ConfigurationSection section) {
 		if (color != DEFAULT_COLOR) section.set("color", color.name());
 	}
-	
+
 	@Override
 	public void load(ConfigurationSection section) {
 		if (section.contains("color")) color = ChatColor.valueOf(section.getString("color"));
 	}
-	
+
 	abstract class Glowing {
 		protected final Player player;
 		protected boolean found = true;
-		
+
 		protected Glowing(Player player) {
 			this.player = player;
 		}
-		
+
 		public abstract void display();
 
 		public abstract void remove();
@@ -235,7 +229,7 @@ public class GlowingTracker extends AbstractTaskTracker {
 				e.printStackTrace();
 			}
 		}
-		
+
 		@Override
 		public void remove() {
 			try {
@@ -249,7 +243,7 @@ public class GlowingTracker extends AbstractTaskTracker {
 		public int hashCode() {
 			return entity.hashCode();
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
 			if (obj instanceof GlowingEntity) {

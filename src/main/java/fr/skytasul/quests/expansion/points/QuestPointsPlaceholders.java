@@ -7,10 +7,10 @@ import java.util.regex.Pattern;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import fr.skytasul.quests.api.players.PlayerAccount;
+import fr.skytasul.quests.api.players.PlayersManager;
 import fr.skytasul.quests.expansion.BeautyQuestsExpansion;
 import fr.skytasul.quests.expansion.points.QuestPointsLeaderboard.LeaderboardEntry;
-import fr.skytasul.quests.players.PlayerAccount;
-import fr.skytasul.quests.players.PlayersManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
 public class QuestPointsPlaceholders extends PlaceholderExpansion {

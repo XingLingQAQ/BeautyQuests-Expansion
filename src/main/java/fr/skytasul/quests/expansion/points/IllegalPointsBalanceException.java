@@ -1,6 +1,6 @@
 package fr.skytasul.quests.expansion.points;
 
-import fr.skytasul.quests.players.PlayerAccount;
+import fr.skytasul.quests.api.players.PlayerAccount;
 
 public class IllegalPointsBalanceException extends Exception {
 

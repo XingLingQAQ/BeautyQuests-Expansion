@@ -3,64 +3,60 @@ package fr.skytasul.quests.expansion.tracking;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
+import fr.skytasul.quests.api.editors.TextEditor;
+import fr.skytasul.quests.api.editors.parsers.EnumParser;
+import fr.skytasul.quests.api.gui.LoreBuilder;
+import fr.skytasul.quests.api.localization.Lang;
 import fr.skytasul.quests.api.objects.QuestObjectClickEvent;
-import fr.skytasul.quests.api.objects.QuestObjectLoreBuilder;
 import fr.skytasul.quests.api.stages.types.Locatable;
 import fr.skytasul.quests.api.stages.types.Locatable.Located;
 import fr.skytasul.quests.api.stages.types.Locatable.PreciseLocatable;
-import fr.skytasul.quests.editors.TextEditor;
-import fr.skytasul.quests.editors.checkers.EnumParser;
 import fr.skytasul.quests.expansion.api.tracking.Tracker;
-import fr.skytasul.quests.utils.Lang;
 
 public class BeaconTracker extends AbstractTaskTracker {
-	
+
 	private static final DyeColor DEFAULT_COLOR = DyeColor.LIME;
 	private static final int TARGET_TIME_MODULO = 78;
-	
+
 	private static final BlockData DATA_BEACON = Bukkit.createBlockData(Material.BEACON);
 	private static final BlockData DATA_BLOCK = Bukkit.createBlockData(Material.IRON_BLOCK);
 	private BlockData dataGlass;
-	
+
 	private int minDistance;
 	private DyeColor color;
-	
+
 	private Locatable.PreciseLocatable precise;
 	private Map<Player, PlayerBeacon> shown;
 	private World world = null;
-	
+
 	private boolean showingState = false;
-	
+
 	public BeaconTracker() {
 		this(40, DEFAULT_COLOR);
 	}
-	
+
 	public BeaconTracker(int minDistance, DyeColor color) {
 		super(45);
 		this.minDistance = minDistance;
 		setColor(color);
 	}
-	
+
 	public void setColor(DyeColor color) {
 		this.color = color;
 		this.dataGlass = Bukkit.createBlockData(Material.valueOf(color.name() + "_STAINED_GLASS"));
 	}
-	
+
 	@Override
 	public Tracker clone() {
 		return new BeaconTracker(minDistance, color);
 	}
-	
+
 	@Override
 	protected long getDelay() {
 		if (world == null) return 10;
@@ -70,7 +66,7 @@ public class BeaconTracker extends AbstractTaskTracker {
 			return 80 + TARGET_TIME_MODULO - modulo;
 		else return TARGET_TIME_MODULO - modulo;
 	}
-	
+
 	@Override
 	public void start(Locatable locatable) {
 		precise = (PreciseLocatable) locatable;
@@ -84,13 +80,13 @@ public class BeaconTracker extends AbstractTaskTracker {
 			shown = new HashMap<>();
 		}
 	}
-	
+
 	@Override
 	public void stop() {
 		super.stop();
 		if (shown != null && !shown.isEmpty()) shown.values().forEach(PlayerBeacon::remove);
 	}
-	
+
 	@Override
 	public void run() {
 		Located located = precise.getLocated();
@@ -109,24 +105,24 @@ public class BeaconTracker extends AbstractTaskTracker {
 		}
 		showingState = !showingState;
 	}
-	
+
 	@Override
 	public void show(Player player) {
 		shown.put(player, new PlayerBeacon(player));
 	}
-	
+
 	@Override
 	public void hide(Player player) {
 		PlayerBeacon beacon = shown.remove(player);
 		if (beacon != null) beacon.remove();
 	}
-	
+
 	@Override
-	protected void addLore(QuestObjectLoreBuilder loreBuilder) {
+	protected void addLore(LoreBuilder loreBuilder) {
 		super.addLore(loreBuilder);
 		loreBuilder.addDescriptionAsValue(color.name().toLowerCase().replace('_', ' '));
 	}
-	
+
 	@Override
 	public void itemClick(QuestObjectClickEvent event) {
 		if (event.isInCreation()) return;
@@ -134,28 +130,28 @@ public class BeaconTracker extends AbstractTaskTracker {
 		new TextEditor<>(event.getPlayer(), event::reopenGUI, newColor -> {
 			setColor(newColor);
 			event.reopenGUI();
-		}, new EnumParser<>(DyeColor.class)).enter();
+		}, new EnumParser<>(DyeColor.class)).start();
 	}
-	
+
 	@Override
 	public void save(ConfigurationSection section) {
 		if (color != DEFAULT_COLOR) section.set("color", color.name());
 	}
-	
+
 	@Override
 	public void load(ConfigurationSection section) {
 		if (section.contains("color")) setColor(DyeColor.valueOf(section.getString("color")));
 	}
-	
+
 	class PlayerBeacon {
-		
+
 		private final Player player;
 		private Location lastLocation;
-		
+
 		public PlayerBeacon(Player player) {
 			this.player = player;
 		}
-		
+
 		public void show(Location location) {
 			Location playerLocation = player.getEyeLocation();
 			if (!playerLocation.getWorld().equals(location.getWorld())) {
@@ -163,9 +159,9 @@ public class BeaconTracker extends AbstractTaskTracker {
 				lastLocation = null;
 				return;
 			}
-			
+
 			int viewDistance = Math.min(8, player.getClientViewDistance());
-			
+
 			double distanceSquared = location.distanceSquared(playerLocation);
 			if (distanceSquared < minDistance * minDistance || isVisible(playerLocation, location.clone().add(0, 2, 0))) {
 				remove();
@@ -179,27 +175,27 @@ public class BeaconTracker extends AbstractTaskTracker {
 				if (lastLocation != null && (lastLocation.getBlockX() >> 4 == location.getBlockX() >> 4) && (lastLocation.getBlockZ() >> 4 == location.getBlockZ() >> 4))
 					return; // if same chunk: no change
 			}else if (location.equals(lastLocation)) return;
-			
+
 			if (!location.equals(lastLocation) && showingState) {
 				remove();
 				lastLocation = location;
 				place(location.clone(), false);
 			}
 		}
-		
+
 		private boolean isVisible(Location location1, Location location2) {
 			Vector direction = location2.toVector().subtract(location1.toVector());
 			RayTraceResult result = location1.getWorld().rayTraceBlocks(location1, direction, direction.length() - 2);
 			return result == null;
 		}
-		
+
 		private void remove() {
 			if (lastLocation != null && lastLocation.isWorldLoaded() && lastLocation.getWorld().equals(player.getLocation().getWorld()) && lastLocation.getChunk().isLoaded()) {
 				place(lastLocation, true);
 				lastLocation = null;
 			}
 		}
-		
+
 		private void place(Location location, boolean destroy) {
 			location.setY(location.getWorld().getHighestBlockYAt(location) + 3);
 			player.sendBlockChange(location, destroy ? location.getBlock().getBlockData() : dataGlass);
@@ -218,7 +214,7 @@ public class BeaconTracker extends AbstractTaskTracker {
 				}
 			}
 		}
-		
+
 	}
-	
+
 }

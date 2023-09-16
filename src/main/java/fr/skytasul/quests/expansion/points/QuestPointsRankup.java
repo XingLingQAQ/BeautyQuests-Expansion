@@ -3,7 +3,7 @@ package fr.skytasul.quests.expansion.points;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import fr.skytasul.quests.players.PlayersManager;
+import fr.skytasul.quests.api.players.PlayersManager;
 import sh.okx.rankup.RankupPlugin;
 import sh.okx.rankup.events.RankupRegisterEvent;
 import sh.okx.rankup.requirements.DeductibleRequirement;
