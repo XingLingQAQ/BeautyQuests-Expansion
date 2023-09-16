@@ -1,0 +1,70 @@
+expansion:
+  label: '§d§l§oFunkcja premium!'
+features:
+  header: '§fFunkcje premium ({features_amount}):'
+  unloaded: '(nie załadowano)'
+timelimit:
+  name: Limit czasowy
+  description: >-
+    Limit czasowy zadania. Gracze będą mogli ukończyć zadanie tylko w określonym czasie po jego rozpoczęciu.
+  left: '§8> Pozostały czas: §7{time_left}'
+  editor: Wpisz maksymalny czas, jaki gracz może poświęcić na ukończenie tego zadania.
+stage:
+  statistic:
+    name: Etap statystyczny
+    description: >-
+      Wymaga od gracza dopasowania określonej wartości statystycznej, takiej jak "przebyty dystans" lub "otwarte skrzynie".
+    advancement: 'Osiągnij {remaining_value} statystyki {statistic_type_name}'
+    gui:
+      stat: '§dStatystyka docelowa'
+      limit: '§cLimit docelowy'
+      relative: 'Limit względny'
+      relativeDescription: >-
+        Jeśli ta opcja jest włączona, limit nie będzie bezwzględny. Zamiast tego będzie to różnica między statystykami gracza w momencie rozpoczęcia zadania i w dowolnym innym momencie.
+      stats:
+        name: 'Wybierz statystykę'
+        block: 'Parametr bloku'
+        item: 'Parametr itemu'
+        entity: 'Parametr jednostki'
+    editor:
+      limit: 'Wpisz limit docelowy dla wybranej statystyki:'
+tracking:
+  name: Trackery celów
+  description: >-
+    Różne pomocne konfigurowalne obiekty, które ułatwiają znajdowanie celów. {trackers_amount} dostępnych trackerów.
+  trackers: '{trackers_amount} trackerów'
+  gui:
+    name: '§aTargetuj trackery'
+  particles:
+    name: '§dCząsteczki'
+    description: Wyświetla określony efekt cząsteczkowy na celach tego etapu.
+  outlineBlock:
+    name: '§dZarys bloku'
+    description: Wyświetla cząsteczki na krawędziach bloków docelowych tego etapu.
+  outlineRegion:
+    name: '§dZarys regionu'
+    description: Wyświetla cząsteczki na krawędziach obszaru docelowego.
+  beacon:
+    name: '§dWiązka światła'
+    description: Wyświetla wiązkę światła w kierunku celu.
+  glowing:
+    name: '§dPodświetlenie'
+    description: Sprawia, że bloki lub jednostki świecą.
+points:
+  name: Punkty zadań
+  description: >-
+    Każdy gracz ma swoją własną liczbę punktów, które mogą być przyznawane jako nagrody i testowane pod kątem wymagań w zadaniach.
+  reward:
+    description: Daje graczowi określoną liczbę punktów zadań.
+    editor:
+      min: 'Wprowadź minimalną liczbę punktów, które gracz otrzyma:'
+      max: 'Wprowadź maksymalną liczbę punktów, które gracz otrzyma:'
+  requirement:
+    description: Wymaga od gracza posiadania określonej liczby punktów zadań.
+    message: Liczba punktów zadań musi wynosić {long_quest_points}!
+    editor:
+      target: 'Wprowadź docelową liczbę punktów zadań:'
+  command:
+    balance: '§aMasz §l{quest_points_balance}§a punktów zadań!'
+    balancePlayer: '§aSaldo {target_name}: {quest_points_balance} punktów zadań.'
+    added: 'Dodano {quest_points_balance} punktów zadań do salda {target_name}.'

@@ -1,0 +1,70 @@
+expansion:
+  label: '§d§l§oGenişletme özelliği!'
+features:
+  header: '§fGenişletme özellikleri ({features_amount}):'
+  unloaded: '(yüklü değil)'
+timelimit:
+  name: Zaman sınırı
+  description: >-
+    Görev için zaman sınırı. Oyuncular, görevi yalnızca göreve başladıktan sonra kurulum süresi içinde tamamlayabilecektir.
+  left: '§8> Kalan zaman: §7{time_left}'
+  editor: Bir oyuncunun bu görevi tamamlamak için alabileceği maksimum süreyi yazın.
+stage:
+  statistic:
+    name: İstatistik aşaması
+    description: >-
+      Oyuncunun "yürüdüğü mesafe" veya "açılan sandıklar" gibi belirli bir istatistik değeriyle eşleşmesini gerektirir.
+    advancement: '{statistic_type_name} istatistiğin {remaining_value} değerine ulaşın'
+    gui:
+      stat: '§dHedef istatistiği'
+      limit: '§cHedef sınırı'
+      relative: 'Göreceli zaman'
+      relativeDescription: >-
+        Bu seçenek etkinleştirilirse, sınır mutlak olmaz. Bunun yerine, göreve başladığında ve herhangi bir anda oyuncu istatistiği arasındaki fark olacaktır.
+      stats:
+        name: 'İstatistiği seçin'
+        block: 'Blok Parametresi'
+        item: 'Eşya parametresi'
+        entity: 'Varlık parametresi'
+    editor:
+      limit: 'Seçilen istatistik için hedef limiti yazın:'
+tracking:
+  name: Objektif izleyiciler
+  description: >-
+    Nesnel bulmayı kolaylaştıran çeşitli yararlı yapılandırılabilir nesneler. {trackers_amount} kullanılabilir izleyici.
+  trackers: '{trackers_amount} takip'
+  gui:
+    name: '§aHedef takibi'
+  particles:
+    name: '§dPartiküller'
+    description: Bu aşamanın hedefleri üzerinde belirli bir parçacık efekti görüntüler.
+  outlineBlock:
+    name: '§dBlok ana hatları'
+    description: Bu aşamadaki hedef blokların kenarlarındaki parçacıkları görüntüler.
+  outlineRegion:
+    name: '§dBölge taslağı'
+    description: Hedef bölgenin kenarlarındaki parçacıkları görüntüler.
+  beacon:
+    name: '§dİşaret ışını'
+    description: Aşama hedefi yönünde bir işaret ışını görüntüler.
+  glowing:
+    name: '§dParıltılı'
+    description: Hedeflenen blokların veya varlıkların parlamasını sağlar.
+points:
+  name: Görev puanları
+  description: >-
+    Her oyuncunun ödül olarak verilebilecek ve görev gereksinimleri için test edilebilecek kendi puanı vardır.
+  reward:
+    description: Oyuncuya belirli miktarda görev puanı verir.
+    editor:
+      min: 'Oyuncunun alacağı minimum puan miktarını girin:'
+      max: 'Oyuncunun alacağı maksimum puan miktarını girin:'
+  requirement:
+    description: Oyuncunun belirli miktarda görev puanına sahip olmasını gerektirir
+    message: Görev puanı miktarınız {long_quest_points} olmalıdır!
+    editor:
+      target: 'Hedef görev puanı miktarını girin:'
+  command:
+    balance: '§l{quest_points_balance} §aGörev puanınız var!'
+    balancePlayer: '§a{target_name} bakiyesi: {quest_points_balance} görev puanı.'
+    added: '{target_name} bakiyesine {quest_points_balance} görev puanı eklendi.'

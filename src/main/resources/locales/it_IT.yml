@@ -1,0 +1,42 @@
+expansion:
+  label: '§d§l§oFunzione dell''espansione!'
+features:
+  header: '§fFunzioni di espansione ({features_amount}):'
+  unloaded: '(non caricato)'
+timelimit:
+  name: Limite di tempo
+  description: >-
+    Limite di tempo per la missione. I giocatori saranno in grado di completare la missione entro la durata di configurazione solo dopo che avranno avviato la missione.
+  left: '§8> Tempo rimanente: §7{time_left}'
+  editor: Scrivi la durata massima che un giocatore può prendere per completare questa missione.
+stage:
+  statistic:
+    name: Fase statistica
+    description: >-
+      Richiede al giocatore di corrispondere a un valore statistico specifico, come "distanza percorsa" o "casse aperte".
+    advancement: 'Raggiungi {remaining_value} per la statistica {statistic_type_name}'
+    gui:
+      stat: '§dObiettivo della statistica'
+      limit: '§cLimite obiettivo'
+      relative: 'Limite relativo'
+      relativeDescription: >-
+        Se questa opzione è abilitata, il limite non sarà assoluto. Invece, sarà la differenza tra la statistica del giocatore quando inizia la missione e in un dato momento.
+      stats:
+        name: 'Scegli la statistica'
+        block: 'Parametro del blocco'
+        item: 'Parametro dell''oggetto'
+        entity: 'Parametro dell''entità'
+    editor:
+      limit: 'Scrivi il limite di destinazione per la statistica selezionata:'
+tracking:
+  name: Tracciatori obiettivo
+  description: >-
+    Vari oggetti configurabili utili che facilitano il reperimento degli obiettivi. {trackers_amount} tracker disponibili.
+  trackers: '{trackers_amount} tracker'
+  gui:
+    name: '§aTracciatori di destinazione'
+  particles:
+    name: '§dParticelle'
+    description: Visualizza un effetto particella specificato sugli obiettivi di questa fase.
+  outlineBlock:
+    name: '§dContorni della zona'

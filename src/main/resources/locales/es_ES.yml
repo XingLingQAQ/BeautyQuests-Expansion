@@ -1,20 +1,20 @@
 expansion:
   label: '§d§l§o¡Función de expansión!'
 features:
-  header: '§fFunciones de expansiones ({0}):'
+  header: '§fFunciones de expansiones ({features_amount}):'
   unloaded: '(no cargado)'
 timelimit:
   name: Límite de tiempo
   description: >-
     Límite de tiempo para la misión. Los jugadores sólo podrán completar la misión dentro de la duración de la configuración después de que comiencen la misión.
-  left: '§8> Tiempo restante: §7{0}'
+  left: '§8> Tiempo restante: §7{time_left}'
   editor: Escribe la duración máxima que un jugador puede tomar para completar esta misión.
 stage:
   statistic:
     name: Etapa estática
     description: >-
       Requiere que el jugador coincida con un valor estadístico específico, como "distancia recorrida" o "cofres abiertos".
-    advancement: 'Alcanza {1} de la estadística {0}'
+    advancement: 'Alcanza {remaining_value} de la estadística {statistic_type_name}'
     gui:
       stat: '§dEstadística de destino'
       limit: '§cLímite objetivo'
@@ -31,8 +31,8 @@ stage:
 tracking:
   name: Buscador de objetivo
   description: >-
-    Varios objetos configurables útiles que facilitan la búsqueda objetiva. {0} rastreadores disponibles.
-  trackers: '{0} rastreadores'
+    Varios objetos configurables útiles que facilitan la búsqueda objetiva. {trackers_amount} rastreadores disponibles.
+  trackers: '{trackers_amount} rastreadores'
   gui:
     name: '§aRastreadores de objetivos'
   particles:
@@ -54,7 +54,6 @@ points:
   name: Puntos de misión
   description: >-
     Cada jugador tiene su propia cantidad de puntos, que pueden ser entregados como recompensas y probados para los requisitos de las misiones.
-  value: '{0} puntos de misión'
   reward:
     description: Da una cantidad determinada de puntos de misión al jugador
     editor:
@@ -62,8 +61,10 @@ points:
       max: 'Introduzca la cantidad máxima de puntos que obtendrá el jugador:'
   requirement:
     description: Requiere que el jugador tenga una cantidad determinada de puntos de misión
-    message: '¡Tu cantidad de puntos de misión debe ser {0}!'
+    message: '¡Tu cantidad de puntos de misión debe ser {long_quest_points}!'
     editor:
       target: 'Ingresa la cantidad objetivo de puntos de misión:'
   command:
-    balance: '§a¡Tienes §l{0}§a puntos de misión!'
+    balance: '§a¡Tienes §l{quest_points_balance}§a puntos de misión!'
+    balancePlayer: '§aBalance de{target_name}: {quest_points_balance} puntos de misión.'
+    added: 'Se añadieron {quest_points_balance} puntos de misiones al balance de {target_name}.'

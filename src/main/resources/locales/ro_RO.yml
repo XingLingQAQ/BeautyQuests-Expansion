@@ -1,0 +1,22 @@
+expansion:
+  label: '§d§l§oExpansiune!'
+features:
+  header: '§fCaracteristica Expansiune ({features_amount}):'
+  unloaded: '(Nu s-a incarcat)'
+timelimit:
+  name: Limita de Timp
+  left: '§8> Timp ramas: §7{time_left}'
+  editor: Scrie durata maxima pe care un jucator o are pentru a completa aceasta misiune.
+stage:
+  statistic:
+    name: Stadiu Statistic
+    description: >-
+      Necesita ca jucatorul sa se potriveasca cu o valoare specifica, cum ar fi "distanta mearsa" sau "cufere deschise".
+    gui:
+      stat: '§dStatistica tinta'
+      limit: '§cLimita tinta'
+      relative: 'Limita relativa'
+points:
+  name: Puncte Misiune
+  description: >-
+    Fiecare jucator are propriul numar de puncte, care poate fi dat ca recompenta si testat pentru cerintele de misiuni.

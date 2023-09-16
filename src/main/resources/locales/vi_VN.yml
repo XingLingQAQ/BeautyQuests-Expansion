@@ -1,20 +1,20 @@
 expansion:
   label: '§d§l§oTính năng mở rộng!'
 features:
-  header: '§fTính năng mở rộng ({0}):'
+  header: '§fTính năng mở rộng ({features_amount}):'
   unloaded: '(không tải được)'
 timelimit:
   name: Giới hạn thời gian
   description: >-
     Giới hạn thời gian cho nhiệm vụ. Người chơi sẽ chỉ có thể hoàn thành nhiệm vụ trong khoảng thời gian thiết lập sau khi họ bắt đầu nhiệm vụ.
-  left: '§8> Thời gian còn lại: §7{0}'
+  left: '§8> Thời gian còn lại: §7{time_left}'
   editor: Viết khoảng thời gian tối đa mà người chơi có thể thực hiện để hoàn thành nhiệm vụ này.
 stage:
   statistic:
     name: Thống kê giai đoạn
     description: >-
       Yêu cầu người chơi khớp với một giá trị thống kê cụ thể, chẳng hạn như "quãng đường đã đi" hoặc "những chiếc rương đã mở".
-    advancement: 'Đạt được {1} của thống kê {0}'
+    advancement: 'Đạt được {remaining_value} của thống kê {statistic_type_name}'
     gui:
       stat: '§dMục tiêu thống kê'
       limit: '§cGiới hạn mục tiêu'
@@ -31,8 +31,8 @@ stage:
 tracking:
   name: Trình theo dõi mục tiêu
   description: >-
-    Các đối tượng có thể định cấu hình hữu ích khác nhau giúp việc tìm kiếm vật thể dễ dàng hơn. {0} trình theo dõi có sẵn.
-  trackers: '{0} người theo dõi'
+    Các đối tượng có thể định cấu hình hữu ích khác nhau giúp việc tìm kiếm vật thể dễ dàng hơn. {trackers_amount} trình theo dõi có sẵn.
+  trackers: '{trackers_amount} người theo dõi'
   gui:
     name: '§aĐối tượng người theo dõi'
   particles:

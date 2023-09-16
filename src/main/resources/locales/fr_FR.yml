@@ -1,20 +1,20 @@
 expansion:
   label: '§d§l§oFonctionnalité de l''extension !'
 features:
-  header: '§fFonctionnalités de l''extension ({0}) :'
+  header: '§fFonctionnalités de l''extension ({features_amount}) :'
   unloaded: '(non chargé)'
 timelimit:
   name: Limite de temps
   description: >-
     Limite de temps pour la quête. Les joueurs ne seront en mesure de terminer la quête que dans la durée paramétrée après le début de la quête.
-  left: '§8> Temps restant : §7{0}'
+  left: '§8> Temps restant : §7{time_left}'
   editor: Écrivez la durée maximale qu'un joueur peut prendre pour accomplir cette quête.
 stage:
   statistic:
     name: Étape de statistique
     description: >-
       Nécessite que le joueur corresponde à une valeur statistique spécifique, telle que "distance parcourue" ou "coffres ouverts".
-    advancement: 'Atteindre {1} de la statistique {0}'
+    advancement: 'Atteindre {remaining_value} de la statistique {statistic_type_name}'
     gui:
       stat: '§dStatistique cible'
       limit: '§cLimite cible'
@@ -31,8 +31,8 @@ stage:
 tracking:
   name: Traqueurs d'objectif
   description: >-
-    Objets configurables utiles pour faciliter la recherche des objectifs. {0} traqueurs disponibles.
-  trackers: '{0} traqueurs'
+    Objets configurables utiles pour faciliter la recherche des objectifs. {trackers_amount} traqueurs disponibles.
+  trackers: '{trackers_amount} traqueurs'
   gui:
     name: '§aTraqueurs d''objectif'
   particles:
@@ -54,7 +54,6 @@ points:
   name: Points de quête
   description: >-
     Chaque joueur a son propre nombre de points, qui peuvent être donnés comme récompenses et utilisés dans les conditions de quêtes.
-  value: '{0} points de quête'
   reward:
     description: Donne un certain nombre de points de quête au joueur
     editor:
@@ -62,10 +61,10 @@ points:
       max: 'Entrez le nombre de points maximum que le joueur obtiendra :'
   requirement:
     description: Nécessite que le joueur ait un certain nombre de points de quête
-    message: Votre nombre de points de quête doit être {0} !
+    message: Votre nombre de points de quête doit être {long_quest_points} !
     editor:
       target: 'Entrez le nombre de points de quête voulu :'
   command:
-    balance: '§aVous avez §l{0}§a points de quête !'
-    balancePlayer: '§a{1} a {0} points de quête.'
-    added: '{0} points de quête ajoutés à {1}.'
+    balance: '§aVous avez §l{quest_points_balance}§a points de quête !'
+    balancePlayer: '§a{target_name} a {quest_points_balance} points de quête.'
+    added: '{quest_points_balance} points de quête ajoutés à {target_name}.'

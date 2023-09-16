@@ -1,0 +1,70 @@
+expansion:
+  label: '§d§l§oExpansão de recurso!'
+features:
+  header: '§fExpansão de recursos ({features_amount}):'
+  unloaded: '(não carregado)'
+timelimit:
+  name: Limite de tempo
+  description: >-
+    Tempo limite para a missão. Os jogadores só poderão completar a tarefa dentro do tempo de configuração após iniciarem a missão.
+  left: '§8> Tempo restante: §7{time_left}'
+  editor: Escreva o tempo máximo que um jogador pode levar para completar esta missão.
+stage:
+  statistic:
+    name: Estatística de estágio
+    description: >-
+      Requer que o jogador corresponda a uma estatística específica, como "distância caminhada" ou "baús abertos".
+    advancement: 'Atinja {remaining_value} da estatística {statistic_type_name}'
+    gui:
+      stat: '§dEstatística do alvo'
+      limit: '§cLimite do alvo'
+      relative: 'Limite relativo'
+      relativeDescription: >-
+        Se esta opção estiver ativada, então o limite não será absoluto. Em vez disso, será a diferença entre as estatísticas do jogador quando ele iniciar a missão e a qualquer momento.
+      stats:
+        name: 'Escolha a estatística'
+        block: 'Bloquear parâmetro'
+        item: 'Parâmetro do item'
+        entity: 'Parâmetro da entidade'
+    editor:
+      limit: 'Escreva o limite alvo para a estatística selecionada:'
+tracking:
+  name: Rastreadores de objetivo
+  description: >-
+    Vários objetos configuráveis úteis que facilitam a busca por objetivo. {trackers_amount} rastreadores disponíveis.
+  trackers: '{trackers_amount} rastreadores'
+  gui:
+    name: '§aRastreadores de alvos'
+  particles:
+    name: '§dPartículas'
+    description: Exibe um efeito de partícula especificado nos alvos deste estágio.
+  outlineBlock:
+    name: '§dContornos do bloco'
+    description: Exibe partículas nas bordas dos blocos alvo deste estágio.
+  outlineRegion:
+    name: '§dContorno da região'
+    description: Exibe partículas nas bordas da região alvo.
+  beacon:
+    name: '§dRaio do beacon (sinalizador)'
+    description: Exibe um raio do beacon (sinalizador) na direção do alvo do estágio.
+  glowing:
+    name: '§dBrilhante'
+    description: Faz com que os blocos ou entidades alvo brilhem.
+points:
+  name: Pontos de missão
+  description: >-
+    Todo jogador tem sua própria quantidade de pontos, que pode ser dada como recompensas e testada por requerimentos nas missões.
+  reward:
+    description: Dá uma quantidade definida de pontos de missão ao jogador
+    editor:
+      min: 'Digite a quantidade mínima de pontos que o jogador receberá:'
+      max: 'Digite o número máximo de pontos que o jogador receberá:'
+  requirement:
+    description: Requer que o jogador tenha uma quantidade definida de pontos de missões
+    message: Sua quantidade de pontos de missão deve ser {long_quest_points}!
+    editor:
+      target: 'Digite a quantidade alvo de pontos de missão:'
+  command:
+    balance: '§aVocê tem §l{quest_points_balance}§a pontos de missão!'
+    balancePlayer: '§aSaldo de {target_name}: {quest_points_balance} pontos de missões.'
+    added: 'Foram adicionados {quest_points_balance} pontos de missões ao saldo de {target_name};'

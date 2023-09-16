@@ -1,28 +1,26 @@
 expansion:
   label: '§d§l§o拓展功能！'
 features:
-  header: '§f拓展功能({0})：'
+  header: '§f拓展功能({features_amount})：'
   unloaded: '（未加载）'
 timelimit:
   name: 时间限制
   description: >-
     任务时间限制。玩家只能在规定时间内完成任务。
-  left: '§8> 剩余时间：§7{0}'
+  left: '§8> 剩余时间：§7{time_left}'
   editor: 输入玩家能完成任务的最久时间。
 stage:
   statistic:
     name: 数据阶段
     description: >-
       需要玩家匹配特定的数据值，比如“步行距离”或“打开箱子”。
-    advancement: '{0}数据达到{1}'
+    advancement: '{statistic_type_name}数据达到{remaining_value}'
     gui:
       stat: '§d目标数据'
       limit: '§c目标限制'
       relative: '相对限制'
       relativeDescription: >-
         如果开启该选项，则限制不是绝对的。差异在于玩家开始任务时的数据与在任何特定时刻的数据。
-
-
       stats:
         name: '选择数据'
         block: '方块参数'
@@ -33,10 +31,8 @@ stage:
 tracking:
   name: 任务追踪器
   description: >-
-    各种有用的可配置对象，让寻找目标更容易。{0}个追踪器可用。
-
-
-  trackers: '{0}个追踪器'
+    各种有用的可配置对象，让寻找目标更容易。{trackers_amount}个追踪器可用。
+  trackers: '{trackers_amount}个追踪器'
   gui:
     name: '§a目标追踪器'
   particles:
@@ -58,7 +54,6 @@ points:
   name: 任务点数
   description: >-
     每位玩家都有自己的点数，点数可以作为奖励，也可以关联任务需求。
-  value: '{0} 任务点数'
   reward:
     description: 给予玩家任务点数
     editor:
@@ -66,8 +61,10 @@ points:
       max: '输入玩家将获得的最多点数：'
   requirement:
     description: 需要玩家拥有特定的任务点数
-    message: 你的任务点数必须达到{0}！
+    message: 你的任务点数必须达到{long_quest_points}！
     editor:
       target: '输入目标任务点数：'
   command:
-    balance: '§a你有§l{0}§a任务点数！'
+    balance: '§a你有§l{quest_points_balance}§a任务点数！'
+    balancePlayer: '§a{target_name}的余额：{quest_points_balance}点任务点数。'
+    added: '已为{target_name}添加{quest_points_balance}点任务点数。'
