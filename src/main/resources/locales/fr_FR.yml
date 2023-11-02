@@ -50,18 +50,24 @@ tracking:
   glowing:
     name: '§dBrillant'
     description: Fait briller les blocs ou les entités ciblés.
+  gps:
+    name: '§dGps'
+    description: Affiche une flèche vers l'emplacement ciblé.
 points:
   name: Points de quête
   description: >-
     Chaque joueur a son propre nombre de points, qui peuvent être donnés comme récompenses et utilisés dans les conditions de quêtes.
+  amount: '{quest_points_amount} points de quête'
   reward:
     description: Donne un certain nombre de points de quête au joueur
+    tooltip: '{quest_points_range} points de quête'
     editor:
       min: 'Entrez le nombre de points minimum que le joueur obtiendra :'
       max: 'Entrez le nombre de points maximum que le joueur obtiendra :'
   requirement:
     description: Nécessite que le joueur ait un certain nombre de points de quête
     message: Votre nombre de points de quête doit être {long_quest_points} !
+    tooltip: '{short_quest_points} points de quête'
     editor:
       target: 'Entrez le nombre de points de quête voulu :'
   command:
