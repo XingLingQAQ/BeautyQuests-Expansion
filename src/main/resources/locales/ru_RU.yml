@@ -50,18 +50,24 @@ tracking:
   glowing:
     name: '§dСветящийся'
     description: Заставляет целевые блоки или объекты светиться.
+  gps:
+    name: '§dGps'
+    description: Показывает стрелку, указывающую на местоположение.
 points:
   name: Квестовые очки
   description: >-
     У каждого игрока есть свое собственное количество очков, которые можно получить в качестве награды и проверить на соответствие требованиям квестов.
+  amount: '{quest_points_amount} очки заданий'
   reward:
     description: Gives a set amount of quest points to the player
+    tooltip: '{quest_points_range} очки заданий'
     editor:
       min: 'Введите минимальное количество очков, которое получит игрок:'
       max: 'Введите максимальное количество очков, которое получит игрок:'
   requirement:
     description: Требуется, чтобы у игрока было определенное количество квестовых очков
     message: Ваше количество квестовых очков должно быть {long_quest_points}!
+    tooltip: '{short_quest_points} очки заданий'
     editor:
       target: 'Введите целевое количество квестовых очков:'
   command:

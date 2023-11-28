@@ -1,0 +1,76 @@
+expansion:
+  label: '§d§l§oBővítmény funckiók!'
+features:
+  header: '§fBővítmény funkciók ({features_amount}):'
+  unloaded: '(Nincs betöltve)'
+timelimit:
+  name: Idő korlát
+  description: >-
+    Idő limit a küldetéshez. A játékosok csak a megadott idő limiten belül tudják a küldetést teljesíteni.
+  left: '§8> Hátralévő idő: §7{time_left}'
+  editor: Add meg a maximum időtartamot, ameddig a játékos teljesítheti ezt a küldetést.
+stage:
+  statistic:
+    name: Statisztikai állomás
+    description: >-
+      A játékosnak meg kell felelnie egy megadott statisztikai értéknek, pl. "megtett távolság" vagy "kinyitott ládák".
+    advancement: 'Érj el {remaining_value}-t a(z) {statistic_type_name} statisztikában'
+    gui:
+      stat: '§dKiválasztott statisztika'
+      limit: '§cMegadott limit'
+      relative: 'Relatív limit'
+      relativeDescription: >-
+        Ha ki van választva, a limit nem abszolút lesz. Helyette a játékos statisztikai értékét a küldetés felvételének pillanatától számolja.
+      stats:
+        name: 'Válassz statisztikát'
+        block: 'Blokk paraméter'
+        item: 'Tárgy paraméter'
+        entity: 'Entitás paraméter'
+    editor:
+      limit: 'Írd be a szükséges limitet a kiválasztott statisztikához:'
+tracking:
+  name: Objective trackers
+  description: >-
+    Hasznos konfigurációs elemek, amelyek az objective keresést megkönnyítik. {trackers_amount} rendelkezésre álló tracker.
+  trackers: '{trackers_amount} tracker-ek'
+  gui:
+    name: '§aCél tracker-ek'
+  particles:
+    name: '§dRészecskék'
+    description: Megjelenít egy specifikus particle effektet az állomás célpontjain.
+  outlineBlock:
+    name: '§dBlokk körvonal'
+    description: Particle effekteket jelenít meg az állomás cél blokkjain.
+  outlineRegion:
+    name: '§dHely körvonal'
+    description: Particle effektet jelenít meg az állomáshoz tartozó hely körvonalán.
+  beacon:
+    name: '§dJelzőfény sugár'
+    description: Jelzőfény sugarat jelenít meg az állomás irányába.
+  glowing:
+    name: '§dFénylő '
+    description: A cél entitás vagy blokk világítani kezd.
+  gps:
+    name: '§dGPS'
+    description: Egy nyíl mutat a cél lokáció felé.
+points:
+  name: Küldetés pontok
+  description: >-
+    Minden játékos saját pont egyenleggel rendelkezik, amely jutalomként adható, illetve követelményként beállítható.
+  amount: '{quest_points_amount} küldetés pont'
+  reward:
+    description: Megadott mennyiségá küldetés pontot ad a játékosnak
+    tooltip: '{quest_points_range} küldetés pont'
+    editor:
+      min: 'Add meg a minimum küldetés pontot, amit a játékos kaphat:'
+      max: 'Add meg a maximum küldetés pontot, amit a játékos kaphat:'
+  requirement:
+    description: A játékosnak egy megadott pont egyenleggel kell rendelkeznie
+    message: '{long_quest_points} küldetés pontodnak kell lennie!'
+    tooltip: '{short_quest_points} küldetés pont'
+    editor:
+      target: 'Add meg a szükséges küldetés pontok mennyiségét:'
+  command:
+    balance: '§l{quest_points_balance}§a küldetés pontod van!'
+    balancePlayer: '§a{target_name} játékosnak {quest_points_balance} küldetés pontja van.'
+    added: '{quest_points_balance} küldetés pont hozzáadva {target_name} játékos egyenlegéhez.'
