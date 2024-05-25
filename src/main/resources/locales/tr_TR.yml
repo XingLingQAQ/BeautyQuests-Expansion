@@ -50,18 +50,24 @@ tracking:
   glowing:
     name: '§dParıltılı'
     description: Hedeflenen blokların veya varlıkların parlamasını sağlar.
+  gps:
+    name: '§dGps'
+    description: Hedef konuma doğru bir ok gösterir.
 points:
   name: Görev puanları
   description: >-
     Her oyuncunun ödül olarak verilebilecek ve görev gereksinimleri için test edilebilecek kendi puanı vardır.
+  amount: '{quest_points_amount} görev puanı'
   reward:
     description: Oyuncuya belirli miktarda görev puanı verir.
+    tooltip: '{quest_points_range} görev puanı'
     editor:
       min: 'Oyuncunun alacağı minimum puan miktarını girin:'
       max: 'Oyuncunun alacağı maksimum puan miktarını girin:'
   requirement:
     description: Oyuncunun belirli miktarda görev puanına sahip olmasını gerektirir
     message: Görev puanı miktarınız {long_quest_points} olmalıdır!
+    tooltip: '{short_quest_points} görev puanı'
     editor:
       target: 'Hedef görev puanı miktarını girin:'
   command:

@@ -1,0 +1,76 @@
+expansion:
+  label: '§d§l§oErweiterungsfunktion!'
+features:
+  header: '§fErweiterungsfunktionen ({features_amount}):'
+  unloaded: '(Nicht geladen)'
+timelimit:
+  name: Zeitlimit
+  description: >-
+    Zeitlimit für die Quest. Nachdem Spieler die Quest gestartet haben, können sie diese nur innerhalb der festgelegten Zeit beenden.
+  left: '§8> Verbleibende Zeit: $7{time_left}'
+  editor: Gib die maximale Dauer an, die ein Spieler zum Beenden der Quest nehmen kann.
+stage:
+  statistic:
+    name: Statistikstufe
+    description: >-
+      Der Spieler muss einen bestimmten statistischen Wert erfüllen, z. B. „zurückgelegte Entfernung“ oder „geöffnete Truhen“.
+    advancement: 'Erreiche {remaining_value} der Statistik {statistic_type_name}'
+    gui:
+      stat: '§dZiel-Statistik'
+      limit: '§cZiellimit'
+      relative: 'Relatives Limit'
+      relativeDescription: >-
+        Wenn diese Option aktiviert ist, dann ist das Limit nicht absolut. Stattdessen ist es die Differenz zwischen der Spielerstatistik zu Beginn der Quest und zu einem beliebigen Zeitpunkt.
+      stats:
+        name: 'Wähle die Statistik'
+        block: 'Blockparameter'
+        item: 'Itemparameter'
+        entity: 'Entitätenparameter'
+    editor:
+      limit: 'Gib das Ziellimit für die ausgewählte Statistik an:'
+tracking:
+  name: Zieltracker
+  description: >-
+    Verschiedene hilfreiche konfigurierbare Objekte, welche das Finden von Zielen leichter macht. {trackers_amount} verfügbare Tracker.
+  trackers: '{trackers_amount} Tracker'
+  gui:
+    name: '§aZieltracker'
+  particles:
+    name: '§dPartikel'
+    description: Zeigt einen bestimmten Partikeleffekt auf den Zielen dieser Stufe an.
+  outlineBlock:
+    name: '&Blockumrisse'
+    description: Zeigt Partikel an den Kanten der Zielblöcke dieser Stufe an.
+  outlineRegion:
+    name: '§dRegionsumriss'
+    description: Zeigt Partikel am Rand des Zielbereichs an.
+  beacon:
+    name: '§dLeuchtfeuerstrahl'
+    description: Zeigt ein Leuchtfeuerstrahl in Richtung des Stufenziels.
+  glowing:
+    name: '§dLeuchten'
+    description: Bringt Zielblöcke oder Entitäten zum Leuchten.
+  gps:
+    name: '§dGps'
+    description: Zeigt einen Pfeil zum Zielort.
+points:
+  name: Questpunkte
+  description: >-
+    Jeder Spieler hat seine eigene Anzahl von Punkten, welche als Belohnung gegeben und als Anforderungen für Quests getestet werden können.
+  amount: '{quest_points_amount} Questpunkte'
+  reward:
+    description: Gibt dem Spieler eine bestimmte Anzahl an Questpunkten
+    tooltip: '{quest_points_range} Questpunkte'
+    editor:
+      min: 'Gib die minimale Anzahl an Punkten an, die der Spieler erhalten wird:'
+      max: 'Gib die maximale Anzahl an Punkten an, die der Spieler erhalten wird:'
+  requirement:
+    description: Erfordert, dass der Spieler eine bestimmte Anzahl an Questpunkten hat
+    message: Deine Anzahl an Questpunkten muss {long_quest_points} sein!
+    tooltip: '{short_quest_points} Questpunkte'
+    editor:
+      target: 'Gib die Zielanzahl an Questpunkten ein:'
+  command:
+    balance: '§aDu hast §l{quest_points_balance}§a Questpunkte!'
+    balancePlayer: '§a{target_name}''s Stand: {quest_points_balance} Questpunkte.'
+    added: '{quest_points_balance} Questpunkte zu {target_name}''s Stand hinzugefügt.'

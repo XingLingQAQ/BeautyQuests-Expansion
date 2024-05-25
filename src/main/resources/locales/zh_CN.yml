@@ -50,18 +50,24 @@ tracking:
   glowing:
     name: '§d发光'
     description: 用发光标记目标方块或实体。
+  gps:
+    name: '§d导航'
+    description: 显示朝向目标位置的箭头。
 points:
   name: 任务点数
   description: >-
     每位玩家都有自己的点数，点数可以作为奖励，也可以关联任务需求。
+  amount: '{quest_points_amount} 任务点数'
   reward:
     description: 给予玩家任务点数
+    tooltip: '{quest_points_range} 任务点数'
     editor:
       min: '输入玩家将获得的最少点数：'
       max: '输入玩家将获得的最多点数：'
   requirement:
     description: 需要玩家拥有特定的任务点数
     message: 你的任务点数必须达到{long_quest_points}！
+    tooltip: '{short_quest_points} 任务点数'
     editor:
       target: '输入目标任务点数：'
   command:

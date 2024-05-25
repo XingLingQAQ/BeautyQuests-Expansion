@@ -50,18 +50,24 @@ tracking:
   glowing:
     name: '§dPodświetlenie'
     description: Sprawia, że bloki lub jednostki świecą.
+  gps:
+    name: '§dGps'
+    description: Pokazuje strzałkę w kierunku docelowej lokalizacji.
 points:
   name: Punkty zadań
   description: >-
     Każdy gracz ma swoją własną liczbę punktów, które mogą być przyznawane jako nagrody i testowane pod kątem wymagań w zadaniach.
+  amount: '{quest_points_amount} punktów zadań'
   reward:
     description: Daje graczowi określoną liczbę punktów zadań.
+    tooltip: '{quest_points_range} punktów zadań'
     editor:
       min: 'Wprowadź minimalną liczbę punktów, które gracz otrzyma:'
       max: 'Wprowadź maksymalną liczbę punktów, które gracz otrzyma:'
   requirement:
     description: Wymaga od gracza posiadania określonej liczby punktów zadań.
     message: Liczba punktów zadań musi wynosić {long_quest_points}!
+    tooltip: '{short_quest_points} punktów zadań'
     editor:
       target: 'Wprowadź docelową liczbę punktów zadań:'
   command:
