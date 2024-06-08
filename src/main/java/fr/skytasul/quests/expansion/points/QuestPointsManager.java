@@ -1,10 +1,5 @@
 package fr.skytasul.quests.expansion.points;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.permissions.PermissionDefault;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import fr.skytasul.quests.api.QuestsAPI;
 import fr.skytasul.quests.api.QuestsPlugin;
 import fr.skytasul.quests.api.commands.revxrsal.annotation.Default;
@@ -29,10 +24,15 @@ import fr.skytasul.quests.expansion.BeautyQuestsExpansion;
 import fr.skytasul.quests.expansion.ExpansionConfiguration.QuestPointsConfiguration;
 import fr.skytasul.quests.expansion.utils.LangExpansion;
 import fr.skytasul.quests.players.PlayersManagerDB;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionDefault;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class QuestPointsManager implements OrphanCommand {
 
-	protected SavableData<Integer> pointsData = new SavableData<>("points", Integer.class, 0);
+	protected final SavableData<Integer> pointsData = new SavableData<>("points", Integer.class, 0);
 
 	@Nullable
 	private QuestPointsLeaderboard leaderboard;
