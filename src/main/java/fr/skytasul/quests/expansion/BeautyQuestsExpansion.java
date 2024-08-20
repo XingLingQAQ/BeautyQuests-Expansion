@@ -1,13 +1,5 @@
 package fr.skytasul.quests.expansion;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Handler;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import org.bukkit.plugin.java.JavaPlugin;
 import fr.skytasul.quests.api.QuestsAPI;
 import fr.skytasul.quests.api.QuestsPlugin;
 import fr.skytasul.quests.api.gui.ItemUtils;
@@ -23,6 +15,14 @@ import fr.skytasul.quests.expansion.points.QuestPointsManager;
 import fr.skytasul.quests.expansion.stages.StageStatistic;
 import fr.skytasul.quests.expansion.utils.LangExpansion;
 import fr.skytasul.quests.utils.configupdater.ConfigUpdater;
+import org.bukkit.plugin.java.JavaPlugin;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Handler;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BeautyQuestsExpansion extends JavaPlugin {
 
@@ -98,10 +98,13 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 			int minor = Integer.parseInt(matcher.group(2));
 			String revisionStr = matcher.group(3);
 			int revision = revisionStr == null ? 0 : Integer.parseInt(revisionStr);
+			String buildStr = matcher.group(4);
 
-			if (major >= 1) {
-				String buildStr = matcher.group(4);
-				if (buildStr == null) return true; // means it's the release
+			if (buildStr == null) {
+				// means it's a release: we must use the major/minor/revision numbers
+				return major >= 1 && minor >= 3;
+			} else {
+				// we have build number: it's easier to just use it instead of the version numbers
 				try {
 					int build = Integer.parseInt(buildStr);
 					return build >= 367;
@@ -109,7 +112,7 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 					// means that the build number is not actually a number
 					// will fallback to "cannot parse"
 				}
-			}else return false;
+			}
 		}
 		logger.warning("Cannot parse BeautyQuests version.");
 		return true;
