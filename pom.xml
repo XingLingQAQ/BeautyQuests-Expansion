@@ -5,7 +5,7 @@
 
 	<groupId>fr.skytasul</groupId>
 	<artifactId>beautyquests-expansion</artifactId>
-	<version>1.2.7</version>
+	<version>1.2.8</version>
 	<packaging>jar</packaging>
 
 	<name>BeautyQuests Expansion</name>
@@ -15,7 +15,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<beautyquests.version>1.0.3</beautyquests.version>
+		<beautyquests.version>1.0.4</beautyquests.version>
 	</properties>
 
 	<developers>

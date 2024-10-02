@@ -102,7 +102,7 @@ public class BeautyQuestsExpansion extends JavaPlugin {
 
 			if (buildStr == null) {
 				// means it's a release: we must use the major/minor/revision numbers
-				return major >= 1 && minor >= 3;
+				return major >= 1 && revision >= 3;
 			} else {
 				// we have build number: it's easier to just use it instead of the version numbers
 				try {
